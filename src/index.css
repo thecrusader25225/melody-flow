@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+    
+    .adjustable-text-size{
+        @apply text-3xl xl:text-8xl lg:text-7xl md:text-4xl sm:text-3xl;
+    }
+    .adjustible-image-size{
+        @apply w-20 xl:w-60 lg:w-40 md:w-32 sm:w-20
+    }
+    .toggle-visibility{
+        @apply hidden sm:block 
+    }
+    .adjustible-padding{
+        @apply pl-0 pt-0 sm:pl-16 sm:pt-16 
+    }
+    .shadow-bottom{
+        box-shadow: 0 8px 8px 0px rgba(0,0,0,0.07);
+    }
+    .shadow-right{
+        box-shadow: 8px 0px 16px 4px rgba(0, 0, 0, 0.07);
+    }
+    .shadow-left{
+        box-shadow: -8px 0px 16px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /*doesnt work*/
+    .textShadow{
+        text-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 1);
+    }
+    .pt-half{
+        padding-top: 50%;
+    }
+   
+}
+
+  /* Optional: Firefox custom scrollbar styles */
+  * {
+    scrollbar-width:none; /* Change the width as needed */
+    scrollbar-color: #4a044e #701a75; /* Change the thumb and track colors as needed */
+    
+}
+  

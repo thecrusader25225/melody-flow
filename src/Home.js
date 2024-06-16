@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import userLogo from "./userLogo.jpg";
 import { FaMusic } from "react-icons/fa";
-import { Link, useNavigate, useLocation } from "react-router-dom";
 import Player from "./Player";
 
 export default function Home() {
@@ -10,8 +9,6 @@ export default function Home() {
   const [currentSong, setCurrentSong] = useState("");
   const [time, setTime] = useState("");
 
-  const navigate = useNavigate();
-  const location = useLocation();
   const addedSongsRef = useRef(null);
 
   const handleSongAdd = (song) => {
@@ -26,10 +23,6 @@ export default function Home() {
     addedSongsRef.current.click();
   }
 
-  const handleNavigation = () => {
-    const serializedSongs = encodeURIComponent(JSON.stringify(addedSongs));
-    navigate(`/library?songs=${serializedSongs}`);
-  };
   console.log(addedSongs);
 
   let date = new Date();
@@ -41,12 +34,6 @@ export default function Home() {
     else if (currentTime >= 12 && currentTime < 18) setTime("Afternoon");
     else setTime("Evening");
   }, []);
-
-  useEffect(() => {
-    if (location.state && location.state.addedSongs) {
-      setAddedSongs(location.state.addedSongs);
-    }
-  }, [location.state]);
 
   return (
     <>
@@ -84,7 +71,7 @@ export default function Home() {
             <span className="flex justify-between">
               <p className=" font-bold font-mono">Library</p>
               {/* <Link to={{ pathname: "/library", state: { addedSongs } }}> */}
-              <button onClick={handleNavigation}>See all</button>
+              <button onClick={"#"}>See all</button>
             </span>
             <div className=" w-full h-full  flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full backdrop-blur-xl shadow-md  ">
               {addedSongs.map((song) => {

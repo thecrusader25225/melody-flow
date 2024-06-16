@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { BiMusic } from "react-icons/bi";
 
 export default function Player({ song }) {

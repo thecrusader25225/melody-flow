@@ -1,4 +1,5 @@
 import { BiMusic } from "react-icons/bi";
+import { useState, useEffect } from "react";
 
 export default function Player({ song }) {
   const { url, name } = song;
@@ -24,35 +25,35 @@ export default function Player({ song }) {
     audio.currentTime = newTime;
   }
 
-  // Effect to set up and clean up audio when url changes or component unmounts
-  useEffect(() => {
-    // Cleanup previous audio when component unmounts or when url changes
-    return () => {
-      if (audio) {
-        audio.pause();
-        audio.removeAttribute("src");
-        audio.load();
-      }
-    };
-  }, [audio]); // Only run effect when audio changes
-
-  // Effect to set up new audio when url changes
+  // Effect to set up new audio when url changes and cleanup previous audio
   useEffect(() => {
     if (url) {
       setIsPlaying(false);
 
       const newAudio = new Audio(url);
-      newAudio.addEventListener("loadedmetadata", () => {
+
+      const handleLoadedMetadata = () => {
         setDuration(newAudio.duration);
-      });
-      newAudio.addEventListener("timeupdate", () => {
+      };
+      const handleTimeUpdate = () => {
         setCurrentTime(newAudio.currentTime);
-      });
-      newAudio.addEventListener("ended", () => {
+      };
+      const handleEnded = () => {
         setIsPlaying(false);
-      });
+      };
+      newAudio.addEventListener("loadedmetadata", handleLoadedMetadata);
+      newAudio.addEventListener("timeupdate", handleTimeUpdate);
+      newAudio.addEventListener("ended", handleEnded);
 
       setAudio(newAudio);
+      return () => {
+        audio.pause();
+        audio.removeAttribute("src");
+        audio.load();
+        newAudio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+        newAudio.removeEventListener("timeupdate", handleTimeUpdate);
+        newAudio.removeEventListener("ended", handleEnded);
+      };
     }
   }, [url]); // Run effect when url changes
 

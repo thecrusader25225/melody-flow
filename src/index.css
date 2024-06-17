@@ -14,7 +14,7 @@
         @apply hidden sm:block 
     }
     .adjustible-padding{
-        @apply pl-0 pt-0 sm:pl-16 sm:pt-16 
+        @apply pl-0 pt-0 sm:px-24 sm:py-24 
     }
     .shadow-bottom{
         box-shadow: 0 8px 8px 0px rgba(0,0,0,0.07);
@@ -38,7 +38,7 @@
 
   /* Optional: Firefox custom scrollbar styles */
   * {
-    scrollbar-width:none; /* Change the width as needed */
+    scrollbar-width:thin; /* Change the width as needed */
     scrollbar-color: #4a044e #701a75; /* Change the thumb and track colors as needed */
     
 }

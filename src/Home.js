@@ -43,9 +43,11 @@ export default function Home() {
         {addedSongs.map((song) => {
           return (
             <div
-              className={` backdrop-blur-3xl w-32 h-32  m-2 ${
-                seeAll ? "flex-grow w-full" : "rounded-full"
-              } hover:scale-125 hover:cursor-pointer transform transition-transform duration-200 ease-linear flex flex-col flex-shrink-0 justify-center items-center shadow-2xl hover:border-y border-purple-600  `}
+              className={` backdrop-blur-3xl  m-2 ${
+                seeAll
+                  ? "flex-grow w-full h-16 border-b border-fuchsia-800 hover:scale-110 hover:bg-fuchsia-800"
+                  : "rounded-full w-32 h-32 hover:border-y border-purple-600  shadow-2xl hover:scale-125 "
+              }  hover:cursor-pointer transform transition-transform duration-200 ease-linear flex flex-col flex-shrink-0 justify-center items-center   `}
               onClick={() =>
                 setCurrentSong({
                   url: `${song.url}`,
@@ -96,14 +98,14 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="p-4 mt-8 mb-4 w-full h-auto flex flex-col  flex-grow m-1 ">
+          <div className=" mt-8 mb-4 w-full h-auto flex flex-col  flex-grow m-1 ">
             <span className="flex justify-between">
               <p className=" font-bold font-mono">Library</p>
               <button onClick={() => setSeeAll(!seeAll)}>See all</button>
             </span>
             {/**library section */}
             {seeAll ? (
-              <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 ">
+              <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
                 <Library />
               </div>
             ) : (

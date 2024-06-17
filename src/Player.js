@@ -47,9 +47,11 @@ export default function Player({ song }) {
 
       setAudio(newAudio);
       return () => {
-        audio.pause();
-        audio.removeAttribute("src");
-        audio.load();
+        if (audio) {
+          audio.pause();
+          audio.removeAttribute("src");
+          audio.load();
+        }
         newAudio.removeEventListener("loadedmetadata", handleLoadedMetadata);
         newAudio.removeEventListener("timeupdate", handleTimeUpdate);
         newAudio.removeEventListener("ended", handleEnded);

@@ -5,8 +5,7 @@ import Player from "./Player";
 
 export default function Home() {
   const [addedSongs, setAddedSongs] = useState([]);
-  const [audioPlayer, setAudioPlayer] = useState("");
-  const [currentSong, setCurrentSong] = useState("");
+  const [currentSongIndex, setCurrentSongIndex] = useState(-1); // -1 means no song selected
   const [time, setTime] = useState("");
   const [seeAll, setSeeAll] = useState(false);
 
@@ -15,129 +14,133 @@ export default function Home() {
   const handleSongAdd = (song) => {
     const file = song.target.files[0];
     const url = URL.createObjectURL(file);
-    // const audio = new Audio(URL.createObjectURL(file));
     setAddedSongs([...addedSongs, { url: url, name: file.name }]);
-
-    //console.log(audio);
   };
-  function handleClick() {
+
+  const handleClick = () => {
     addedSongsRef.current.click();
-  }
+  };
 
-  console.log(addedSongs);
+  const handleSongClick = (index) => {
+    setCurrentSongIndex(index);
+  };
 
-  let date = new Date();
-
-  //getting the current time when the page is rendered
   useEffect(() => {
-    let currentTime = date.getHours();
+    const date = new Date();
+    const currentTime = date.getHours();
     if (currentTime >= 4 && currentTime < 12) setTime("Morning");
     else if (currentTime >= 12 && currentTime < 18) setTime("Afternoon");
     else setTime("Evening");
   }, []);
 
   function Library() {
-    console.log("See all: " + seeAll);
     return (
       <>
-        {addedSongs.map((song) => {
-          return (
-            <div
-              className={` backdrop-blur-3xl  m-2 ${
-                seeAll
-                  ? "flex-grow w-full h-16 border-b border-fuchsia-800 hover:scale-110 hover:bg-fuchsia-800"
-                  : "rounded-full w-32 h-32 hover:border-y border-purple-600  shadow-2xl hover:scale-125 "
-              }  hover:cursor-pointer transform transition-transform duration-200 ease-linear flex flex-col flex-shrink-0 justify-center items-center   `}
-              onClick={() =>
-                setCurrentSong({
-                  url: `${song.url}`,
-                  name: `${song.name}`,
-                })
-              }
-            >
-              <p className=" bg-gradient-to-r from-yellow-300 via-pink-500 to-fuchsia-800 bg-clip-text text-transparent ">
-                {song.name}
-              </p>
-              <FaMusic className="text-black" />
-            </div>
-          );
-        })}
+        {addedSongs.map((song, index) => (
+          <div
+            key={index}
+            className={`backdrop-blur-3xl m-2 ${
+              seeAll
+                ? "flex-grow w-full h-16 border-b border-fuchsia-950 hover:scale-110 hover:bg-white hover:bg-opacity-5 hover:rounded-full duration-100"
+                : "rounded-full w-32 h-32 hover:border-y border-purple-600 shadow-2xl hover:scale-125 duration-200"
+            } hover:cursor-pointer transform transition-transform ease-linear flex flex-col flex-shrink-0 justify-center items-center`}
+            onClick={() => handleSongClick(index)}
+          >
+            <p className="bg-gradient-to-r from-yellow-300 via-pink-500 to-fuchsia-800 bg-clip-text text-transparent">
+              {song.name}
+            </p>
+            <FaMusic className="text-black" />
+          </div>
+        ))}
       </>
     );
   }
 
   return (
-    <>
-      <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding  overflow-y-auto ">
-        <div className="w-[calc(75%)] h-full flex flex-col bg-gradient-to-r from-violet-400 via-fuchsia-100 to-purple-400 bg-clip-text text-transparent px-8 pt-8 z-0">
-          <div className="w-full flex flex-col shadow-bottom rounded-3xl px-4 h-1/3">
-            <div className="flex justify-between items-center  w-full h-full ">
-              <span className=" justify-center  flex flex-col  italic ">
-                <p className="font-extrabold font-mono adjustable-text-size ">
-                  Good {time}, User
-                </p>
-                <p className="text-xl text-shadow">
-                  Get yourself some good music (:
-                </p>
-              </span>
-              <img
-                src={userLogo}
-                alt="user pfp"
-                className="adjustible-image-size rounded-tr-2xl m-2"
-              />
-            </div>
-            <div className="border-t-2 p-2 flex justify-end">
-              <p className=" ">You might wanna add some music...</p>
-              <button onClick={handleClick}>Enter</button>
-              <input
-                type="file"
-                ref={addedSongsRef}
-                accept="audio/*"
-                onChange={handleSongAdd}
-                className=" hidden"
-              />
-            </div>
-          </div>
-          <div className=" mt-8 mb-4 w-full h-auto flex flex-col  flex-grow m-1 ">
-            <span className="flex justify-between">
-              <p className=" font-bold font-mono">Library</p>
-              <button onClick={() => setSeeAll(!seeAll)}>See all</button>
+    <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding overflow-y-auto">
+      <div className="w-[calc(75%)] h-full flex flex-col bg-gradient-to-r from-violet-400 via-fuchsia-100 to-purple-400 bg-clip-text text-transparent px-8 pt-8 z-0">
+        <div className="w-full flex flex-col shadow-bottom rounded-3xl px-4 h-1/3">
+          <div className="flex justify-between items-center w-full h-full">
+            <span className="justify-center flex flex-col italic">
+              <p className="font-extrabold font-mono adjustable-text-size">
+                Good {time}, User
+              </p>
+              <p className="text-xl text-shadow">
+                Get yourself some good music (:
+              </p>
             </span>
-            {/**library section */}
-            {seeAll ? (
-              <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
-                <Library />
-              </div>
-            ) : (
-              <div className=" w-full h-full  flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full backdrop-blur-xl shadow-md  ">
-                <Library />
-              </div>
-            )}
+            <img
+              src={userLogo}
+              alt="user pfp"
+              className="adjustible-image-size rounded-tr-2xl m-2"
+            />
           </div>
-          {/** */}
-          <div className="p-4 mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1 ">
-            <span className="flex justify-between">
-              <p className=" font-bold font-mono">Playlist</p>
-              <button onClick={() => setSeeAll(!seeAll)}>See all</button>
-            </span>
-            {/**library section */}
-            {seeAll ? (
-              <div className=" w-full  flex items-center  overflow-x-hidden flex-grow rounded-full backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 ">
-                <Library />
-              </div>
-            ) : (
-              <div className=" w-full h-full  flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full backdrop-blur-xl shadow-md  ">
-                <Library />
-              </div>
-            )}
+          <div className="border-t-2 p-2 flex justify-end">
+            <p>You might wanna add some music...</p>
+            <button onClick={handleClick}>Enter</button>
+            <input
+              type="file"
+              ref={addedSongsRef}
+              accept="audio/*"
+              onChange={handleSongAdd}
+              className="hidden"
+            />
           </div>
         </div>
-
-        <div className="player w-[calc(25%)] h-full px-8 py-4 shadow-left fixed top-0 right-0">
-          <Player song={currentSong} />
-          {console.log("Current" + currentSong.url)}
+        <div className="mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1">
+          <span className="flex justify-between">
+            <p className="font-bold font-mono">Library</p>
+            <button onClick={() => setSeeAll(!seeAll)}>See all</button>
+          </span>
+          {seeAll ? (
+            <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
+              <Library />
+            </div>
+          ) : (
+            <div className=" w-full h-full  flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full backdrop-blur-xl shadow-md  ">
+              <Library />
+            </div>
+          )}
+        </div>
+        <div className="mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1">
+          <span className="flex justify-between">
+            <p className="font-bold font-mono">Library</p>
+            <button onClick={() => setSeeAll(!seeAll)}>See all</button>
+          </span>
+          {seeAll ? (
+            <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
+              <Library />
+            </div>
+          ) : (
+            <div className=" w-full h-full  flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full backdrop-blur-xl shadow-md  ">
+              <Library />
+            </div>
+          )}
+        </div>
+        <div className="mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1">
+          <span className="flex justify-between">
+            <p className="font-bold font-mono">Library</p>
+            <button onClick={() => setSeeAll(!seeAll)}>See all</button>
+          </span>
+          {seeAll ? (
+            <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
+              <Library />
+            </div>
+          ) : (
+            <div className=" w-full h-full  flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full backdrop-blur-xl shadow-md  ">
+              <Library />
+            </div>
+          )}
         </div>
       </div>
-    </>
+
+      <div className="player w-[calc(25%)] h-full px-8 py-4 shadow-left fixed top-0 right-0">
+        <Player
+          songs={addedSongs}
+          currentSongIndex={currentSongIndex}
+          setCurrentSongIndex={setCurrentSongIndex}
+        />
+      </div>
+    </div>
   );
 }

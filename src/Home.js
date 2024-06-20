@@ -8,7 +8,7 @@ export default function Home() {
   const [currentSongIndex, setCurrentSongIndex] = useState(-1); // -1 means no song selected
   const [time, setTime] = useState("");
   const [seeAll, setSeeAll] = useState(false);
-  const [likedSongs, setLikedSongs] = useState([{ url: "", name: "" }]);
+  const [likedSongs, setLikedSongs] = useState([]);
 
   const addedSongsRef = useRef(null);
 
@@ -22,8 +22,14 @@ export default function Home() {
     addedSongsRef.current.click();
   };
 
-  const handleSongClick = (index) => {
-    setCurrentSongIndex(index);
+  const handleSongClick = (index, type) => {
+    let indexToFind = index;
+    if (type == "Liked") {
+      const song = likedSongs[index];
+      indexToFind = addedSongs.findIndex((s) => song.url == s.url);
+    }
+
+    setCurrentSongIndex(indexToFind);
   };
 
   useEffect(() => {
@@ -45,7 +51,7 @@ export default function Home() {
                 ? "flex-grow w-full h-16 border-b border-fuchsia-950 hover:scale-110 hover:bg-white hover:bg-opacity-5 hover:rounded-full duration-100"
                 : "rounded-full w-32 h-32 hover:border-y border-purple-600 shadow-2xl hover:scale-125 duration-200"
             } hover:cursor-pointer transform transition-transform ease-linear flex flex-col flex-shrink-0 justify-center items-center`}
-            onClick={() => handleSongClick(index)}
+            onClick={() => handleSongClick(index, type)}
           >
             <p className="bg-gradient-to-r from-yellow-300 via-pink-500 to-fuchsia-800 bg-clip-text text-transparent">
               {song.name}

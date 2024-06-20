@@ -98,20 +98,21 @@ export default function Player({
         { url: currentSong.url, name: currentSong.name },
       ]);
   };
-  console.log(likedSongs);
+  console.log("Liked songs: " + likedSongs);
+  console.log("Current song: " + currentSong.name);
   return (
     <div className="flex flex-col h-full w-full justify-center items-center">
       <div
-        className={`z-0 flex justify-center items-center h-auto w-full relative ${
+        className={`border rounded-full z-0 flex justify-center items-center h-auto w-1/2 relative ${
           isPlaying ? "animate-spin-slow" : ""
         }`}
       >
-        <div className="z-1 bg-red-600 pt-half w-1/2 items-center justify-center flex rounded-full" />
+        <div className=" bg-red-600 pt-half w-1/2 items-center justify-center flex rounded-full" />
         <BiMusic className="absolute text-4xl" />
       </div>
       <p className="mt-2 text-center">{name}</p>
 
-      <div className="flex justify-between w-full">
+      <div className="z-1 flex justify-between w-full">
         <button className="text-3xl" onClick={handlePrevious}>
           «
         </button>

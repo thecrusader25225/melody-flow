@@ -1,16 +1,18 @@
-import { BiMusic } from "react-icons/bi";
+import { BiMusic, BiHeart } from "react-icons/bi";
 import { useState, useEffect } from "react";
+import { HiHeart } from "react-icons/hi";
 
 export default function Player({
   songs,
   currentSongIndex,
   setCurrentSongIndex,
+  likedSongs,
+  setLikedSongs,
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-
   const currentSong = songs[currentSongIndex] || { url: "", name: "" };
   const { url, name } = currentSong;
 
@@ -87,15 +89,24 @@ export default function Player({
       setCurrentSongIndex(currentSongIndex - 1);
     }
   };
-
+  const handleLikedSong = () => {
+    if (likedSongs.some((song) => song.url == currentSong.url))
+      setLikedSongs(likedSongs.filter((song) => song.url != currentSong.url));
+    else
+      setLikedSongs([
+        ...likedSongs,
+        { url: currentSong.url, name: currentSong.name },
+      ]);
+  };
+  console.log(likedSongs);
   return (
     <div className="flex flex-col h-full w-full justify-center items-center">
       <div
-        className={`flex justify-center items-center h-auto w-full relative ${
+        className={`z-0 flex justify-center items-center h-auto w-full relative ${
           isPlaying ? "animate-spin-slow" : ""
         }`}
       >
-        <div className="bg-red-600 pt-half w-1/2 items-center justify-center flex rounded-full" />
+        <div className="z-1 bg-red-600 pt-half w-1/2 items-center justify-center flex rounded-full" />
         <BiMusic className="absolute text-4xl" />
       </div>
       <p className="mt-2 text-center">{name}</p>
@@ -109,6 +120,9 @@ export default function Player({
         </button>
         <button className="text-3xl" onClick={handleNext}>
           »
+        </button>
+        <button onClick={handleLikedSong}>
+          <HiHeart />
         </button>
       </div>
       <input

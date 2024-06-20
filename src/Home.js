@@ -8,6 +8,7 @@ export default function Home() {
   const [currentSongIndex, setCurrentSongIndex] = useState(-1); // -1 means no song selected
   const [time, setTime] = useState("");
   const [seeAll, setSeeAll] = useState(false);
+  const [likedSongs, setLikedSongs] = useState([{ url: "", name: "" }]);
 
   const addedSongsRef = useRef(null);
 
@@ -33,10 +34,10 @@ export default function Home() {
     else setTime("Evening");
   }, []);
 
-  function Library() {
+  function List({ type }) {
     return (
       <>
-        {addedSongs.map((song, index) => (
+        {(type == "Library" ? addedSongs : likedSongs).map((song, index) => (
           <div
             key={index}
             className={`backdrop-blur-3xl m-2 ${
@@ -94,41 +95,41 @@ export default function Home() {
           </span>
           {seeAll ? (
             <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
-              <Library />
+              <List type="Library" />
             </div>
           ) : (
             <div className=" w-full h-full  flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full backdrop-blur-xl shadow-md  ">
-              <Library />
+              <List type="Library" />
             </div>
           )}
         </div>
         <div className="mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1">
           <span className="flex justify-between">
-            <p className="font-bold font-mono">Library</p>
+            <p className="font-bold font-mono">Liked Songs</p>
             <button onClick={() => setSeeAll(!seeAll)}>See all</button>
           </span>
           {seeAll ? (
             <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
-              <Library />
+              <List type="Liked" />
             </div>
           ) : (
             <div className=" w-full h-full  flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full backdrop-blur-xl shadow-md  ">
-              <Library />
+              <List type="Liked" />
             </div>
           )}
         </div>
         <div className="mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1">
           <span className="flex justify-between">
-            <p className="font-bold font-mono">Library</p>
+            <p className="font-bold font-mono">Playlist</p>
             <button onClick={() => setSeeAll(!seeAll)}>See all</button>
           </span>
           {seeAll ? (
             <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
-              <Library />
+              <List type="Playlist" />
             </div>
           ) : (
             <div className=" w-full h-full  flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full backdrop-blur-xl shadow-md  ">
-              <Library />
+              <List type="Playlist" />
             </div>
           )}
         </div>
@@ -139,6 +140,8 @@ export default function Home() {
           songs={addedSongs}
           currentSongIndex={currentSongIndex}
           setCurrentSongIndex={setCurrentSongIndex}
+          likedSongs={likedSongs}
+          setLikedSongs={setLikedSongs}
         />
       </div>
     </div>

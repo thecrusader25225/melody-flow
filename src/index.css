@@ -39,12 +39,14 @@
     .custom-text-color{
         @apply bg-gradient-to-r from-fuchsia-400 via-pink-100 to-fuchsia-400 bg-clip-text text-transparent
     }
-   
+   .navButton{
+    @apply  flex p-2 my-2 hover:bg-white hover:bg-opacity-10 rounded-full duration-200 
+   }
 }
 
   /* Optional: Firefox custom scrollbar styles */
   * {
-    scrollbar-width:thin; /* Change the width as needed */
+    scrollbar-width:none; /* Change the width as needed */
     scrollbar-color: #4a044e #701a75; /* Change the thumb and track colors as needed */
     
 }

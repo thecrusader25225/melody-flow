@@ -3,14 +3,15 @@ import userLogo from "./userLogo.jpg";
 import { FaMusic } from "react-icons/fa";
 import Player from "./Player";
 
-export default function Home() {
+export default function Home({ page }) {
   const [addedSongs, setAddedSongs] = useState([]);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1); // -1 means no song selected
   const [time, setTime] = useState("");
   const [seeAll, setSeeAll] = useState({
     Library: false,
-    Liked: false,
-    Playlist: false,
+    Liked: true,
+    Playlist: true,
+    Recent: false,
   });
   const [likedSongs, setLikedSongs] = useState([]);
 
@@ -47,7 +48,12 @@ export default function Home() {
   function List({ type }) {
     return (
       <>
-        {(type == "Library" ? addedSongs : likedSongs).map((song, index) => (
+        {(type == "Library"
+          ? addedSongs
+          : type == "Liked"
+          ? likedSongs
+          : null
+        ).map((song, index) => (
           <div
             key={index}
             className={` m-2 p-2 text-wrap ${
@@ -67,7 +73,7 @@ export default function Home() {
 
   return (
     <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding overflow-y-auto ">
-      <div className="w-[calc(100%)] h-full flex flex-col custom-text-color px-8 pt-8 mb-24 z-0">
+      <div className="w-[calc(100%)] h-full flex flex-col custom-text-color px-8 pt-8 z-0">
         <div className="w-full flex flex-col rounded-3xl px-4 h-1/3 bg-white bg-opacity-10 ">
           <div className="flex justify-between items-center w-full h-full">
             <span className="justify-center flex flex-col italic">
@@ -96,7 +102,7 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1 text-fuchsia-200">
+        <div className="mt-8 w-full h-auto flex flex-col flex-grow m-1 text-fuchsia-200 pb-24">
           <span className="flex justify-between">
             <p className="font-bold font-mono ">Library</p>
             <button
@@ -116,8 +122,14 @@ export default function Home() {
           )}
         </div>
       </div>
-      <div className="top-0 right-0 w-1/3 fixed h-full shadow-left"></div>
-      <div className="player backdrop-blur h-[calc(10%)] w-full fixed bottom-0 left-0 flex px-8 items-center shadow-top">
+
+      <div className="top-0 right-0 w-1/3 py-24 fixed h-full text-white font-bold font-mono overflow-y-auto p-1">
+        <p className="">{page === "Liked" ? "Liked Songs" : "Playlists"}</p>
+        <div className=" w-full  flex flex-col rounded-3xl backdrop-blur-xl flex-wrap flex-shrink-0 p-8 bg-white bg-opacity-10 ">
+          <List type="Liked" />
+        </div>
+      </div>
+      <div className="player backdrop-blur-xl h-[calc(10%)] w-full fixed bottom-0 left-0 flex px-8 items-center shadow-top">
         <Player
           songs={addedSongs}
           currentSongIndex={currentSongIndex}

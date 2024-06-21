@@ -52,7 +52,7 @@ export default function Home() {
             key={index}
             className={`backdrop-blur-3xl m-2 ${
               seeAll[type]
-                ? "flex-grow w-full h-16 border-b border-fuchsia-950 hover:scale-110 hover:bg-white hover:bg-opacity-5 hover:rounded-full duration-100"
+                ? "flex-grow-0 w-full h-16 border-b border-fuchsia-950 hover:scale-110 hover:bg-white hover:bg-opacity-5 hover:rounded-full duration-100 "
                 : "rounded-full w-32 h-32 hover:border-y border-purple-600 shadow-2xl hover:scale-125 duration-200"
             } hover:cursor-pointer transform transition-transform ease-linear flex flex-col flex-shrink-0 justify-center items-center`}
             onClick={() => handleSongClick(index, type)}
@@ -68,9 +68,9 @@ export default function Home() {
   }
 
   return (
-    <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding overflow-y-auto">
-      <div className="w-[calc(60%)] h-full flex flex-col custom-text-color px-8 pt-8 z-0">
-        <div className="w-full flex flex-col shadow-bottom rounded-3xl px-4 h-1/3">
+    <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding overflow-y-auto ">
+      <div className="w-[calc(100%)] h-full flex flex-col custom-text-color px-8 pt-8 mb-24 z-0">
+        <div className="w-full flex flex-col shadow-bottom rounded-3xl px-4 h-1/3 bg-white bg-opacity-10 ">
           <div className="flex justify-between items-center w-full h-full">
             <span className="justify-center flex flex-col italic">
               <p className="font-extrabold font-mono adjustable-text-size">
@@ -108,7 +108,7 @@ export default function Home() {
             </button>
           </span>
           {seeAll.Library ? (
-            <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
+            <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12 ">
               <List type="Library" />
             </div>
           ) : (
@@ -132,7 +132,7 @@ export default function Home() {
               <List type="Liked" />
             </div>
           ) : (
-            <div className=" w-full h-full  flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full backdrop-blur-xl shadow-md  ">
+            <div className=" w-full h-full  flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full backdrop-blur-xl shadow-md max-h-40  ">
               <List type="Liked" />
             </div>
           )}
@@ -160,8 +160,8 @@ export default function Home() {
           )}
         </div>
       </div>
-
-      <div className="player w-[calc(40%)] h-full px-8 py-4 shadow-left fixed top-0 right-0 flex justify-center items-center flex-col">
+      <div className="top-0 right-0 w-1/3 fixed h-full shadow-left"></div>
+      <div className="player backdrop-blur h-[calc(10%)] w-full fixed bottom-0 left-0 flex px-8 items-center shadow-top">
         <Player
           songs={addedSongs}
           currentSongIndex={currentSongIndex}

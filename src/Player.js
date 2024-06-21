@@ -64,6 +64,7 @@ export default function Player({
       }
 
       setAudio(newAudio);
+      setCurrentTime(0);
 
       return () => {
         if (audio) {
@@ -102,37 +103,37 @@ export default function Player({
   console.log("Current song: " + currentSong.name);
   return (
     <>
-      <div className="h-auto w-1/2">
-        <div
-          className={` py-half border rounded-full z-0 flex justify-center items-center h-auto w-full relative ${
-            isPlaying ? "animate-spin-slow" : ""
-          }`}
-        >
-          <div className=" bg-red-600 pt-half w-1/2 items-center justify-center flex rounded-full" />
-          <BiMusic className="absolute text-4xl" />
-        </div>
-        <p className="mt-2 text-center z-10">{name}</p>
-        <div className="z-10 flex justify-between w-full">
-          <button className="text-3xl z-10" onClick={handlePrevious}>
-            «
-          </button>
-          <button className="playpause z-10" onClick={handlePlayPause}>
-            {isPlaying ? "||" : "▶"}
-          </button>
-          <button className="text-3xl z-10" onClick={handleNext}>
-            »
-          </button>
-          <button onClick={handleLikedSong}>
-            <HiHeart />
-          </button>
-        </div>
-        <input
-          type="range"
-          min={0}
-          max={duration}
-          value={currentTime}
-          onChange={handleSeek}
-        />
+      <div className="h-1/2 w-full flex flex-row justify-around items-center">
+        <span className="flex flex-row items-center justify-start w-1/4">
+          <BiMusic className=" text-4xl mr-4 w-16" />
+          <p className=" text-center font-serif z-10 text-fuchsia-200">
+            {name.length > 80 ? name.substring(0, 81) + "..." : name}
+          </p>
+        </span>
+        <span className="flex flex-col w-3/4 items-center">
+          <div className="z-10 flex justify-between w-1/2">
+            <button className="text-3xl z-10" onClick={handlePrevious}>
+              «
+            </button>
+            <button className="playpause z-10" onClick={handlePlayPause}>
+              {isPlaying ? "||" : "▶"}
+            </button>
+            <button className="text-3xl z-10" onClick={handleNext}>
+              »
+            </button>
+            <button onClick={handleLikedSong}>
+              <HiHeart />
+            </button>
+          </div>
+          <input
+            className="w-full"
+            type="range"
+            min={0}
+            max={duration}
+            value={currentTime}
+            onChange={handleSeek}
+          />
+        </span>
       </div>
     </>
   );

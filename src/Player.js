@@ -101,38 +101,39 @@ export default function Player({
   console.log("Liked songs: " + likedSongs);
   console.log("Current song: " + currentSong.name);
   return (
-    <div className="flex flex-col h-full w-full justify-center items-center">
-      <div
-        className={`border rounded-full z-0 flex justify-center items-center h-auto w-1/2 relative ${
-          isPlaying ? "animate-spin-slow" : ""
-        }`}
-      >
-        <div className=" bg-red-600 pt-half w-1/2 items-center justify-center flex rounded-full" />
-        <BiMusic className="absolute text-4xl" />
+    <>
+      <div className="h-auto w-1/2">
+        <div
+          className={` py-half border rounded-full z-0 flex justify-center items-center h-auto w-full relative ${
+            isPlaying ? "animate-spin-slow" : ""
+          }`}
+        >
+          <div className=" bg-red-600 pt-half w-1/2 items-center justify-center flex rounded-full" />
+          <BiMusic className="absolute text-4xl" />
+        </div>
+        <p className="mt-2 text-center z-10">{name}</p>
+        <div className="z-10 flex justify-between w-full">
+          <button className="text-3xl z-10" onClick={handlePrevious}>
+            «
+          </button>
+          <button className="playpause z-10" onClick={handlePlayPause}>
+            {isPlaying ? "||" : "▶"}
+          </button>
+          <button className="text-3xl z-10" onClick={handleNext}>
+            »
+          </button>
+          <button onClick={handleLikedSong}>
+            <HiHeart />
+          </button>
+        </div>
+        <input
+          type="range"
+          min={0}
+          max={duration}
+          value={currentTime}
+          onChange={handleSeek}
+        />
       </div>
-      <p className="mt-2 text-center">{name}</p>
-
-      <div className="z-1 flex justify-between w-full">
-        <button className="text-3xl" onClick={handlePrevious}>
-          «
-        </button>
-        <button className="playpause" onClick={handlePlayPause}>
-          {isPlaying ? "||" : "▶"}
-        </button>
-        <button className="text-3xl" onClick={handleNext}>
-          »
-        </button>
-        <button onClick={handleLikedSong}>
-          <HiHeart />
-        </button>
-      </div>
-      <input
-        type="range"
-        min={0}
-        max={duration}
-        value={currentTime}
-        onChange={handleSeek}
-      />
-    </div>
+    </>
   );
 }

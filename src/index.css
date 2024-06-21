@@ -5,16 +5,16 @@
 @layer components{
     
     .adjustable-text-size{
-        @apply text-3xl xl:text-8xl lg:text-7xl md:text-4xl sm:text-3xl;
+        @apply text-3xl xl:text-6xl lg:text-5xl md:text-3xl sm:text-3xl;
     }
     .adjustible-image-size{
-        @apply w-20 xl:w-60 lg:w-40 md:w-32 sm:w-20
+        @apply w-20 xl:w-40 lg:w-32 md:w-20 sm:w-20
     }
     .toggle-visibility{
-        @apply hidden sm:block 
+        @apply hidden md:block 
     }
     .adjustible-padding{
-        @apply pl-0 pt-0 sm:px-24 sm:py-24 
+        @apply pl-0 pt-24 md:px-24 sm:py-24 
     }
     .shadow-bottom{
         box-shadow: 0 8px 8px 0px rgba(0,0,0,0.07);
@@ -32,6 +32,9 @@
     }
     .pt-half{
         padding-top: 50%;
+    }
+    .custom-text-color{
+        @apply bg-gradient-to-r from-fuchsia-400 via-pink-100 to-fuchsia-400 bg-clip-text text-transparent
     }
    
 }

@@ -7,7 +7,11 @@ export default function Home() {
   const [addedSongs, setAddedSongs] = useState([]);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1); // -1 means no song selected
   const [time, setTime] = useState("");
-  const [seeAll, setSeeAll] = useState(false);
+  const [seeAll, setSeeAll] = useState({
+    Library: false,
+    Liked: false,
+    Playlist: false,
+  });
   const [likedSongs, setLikedSongs] = useState([]);
 
   const addedSongsRef = useRef(null);
@@ -47,7 +51,7 @@ export default function Home() {
           <div
             key={index}
             className={`backdrop-blur-3xl m-2 ${
-              seeAll
+              seeAll[type]
                 ? "flex-grow w-full h-16 border-b border-fuchsia-950 hover:scale-110 hover:bg-white hover:bg-opacity-5 hover:rounded-full duration-100"
                 : "rounded-full w-32 h-32 hover:border-y border-purple-600 shadow-2xl hover:scale-125 duration-200"
             } hover:cursor-pointer transform transition-transform ease-linear flex flex-col flex-shrink-0 justify-center items-center`}
@@ -65,7 +69,7 @@ export default function Home() {
 
   return (
     <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding overflow-y-auto">
-      <div className="w-[calc(75%)] h-full flex flex-col bg-gradient-to-r from-violet-400 via-fuchsia-100 to-purple-400 bg-clip-text text-transparent px-8 pt-8 z-0">
+      <div className="w-[calc(60%)] h-full flex flex-col custom-text-color px-8 pt-8 z-0">
         <div className="w-full flex flex-col shadow-bottom rounded-3xl px-4 h-1/3">
           <div className="flex justify-between items-center w-full h-full">
             <span className="justify-center flex flex-col italic">
@@ -82,7 +86,7 @@ export default function Home() {
               className="adjustible-image-size rounded-tr-2xl m-2"
             />
           </div>
-          <div className="border-t-2 p-2 flex justify-end">
+          <div className="border-t-2 p-2 flex justify-end text-fuchsia-200">
             <p>You might wanna add some music...</p>
             <button onClick={handleClick}>Enter</button>
             <input
@@ -94,12 +98,16 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1">
+        <div className="mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1 text-fuchsia-200">
           <span className="flex justify-between">
-            <p className="font-bold font-mono">Library</p>
-            <button onClick={() => setSeeAll(!seeAll)}>See all</button>
+            <p className="font-bold font-mono ">Library</p>
+            <button
+              onClick={() => setSeeAll({ ...seeAll, Library: !seeAll.Library })}
+            >
+              See all
+            </button>
           </span>
-          {seeAll ? (
+          {seeAll.Library ? (
             <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
               <List type="Library" />
             </div>
@@ -109,12 +117,17 @@ export default function Home() {
             </div>
           )}
         </div>
-        <div className="mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1">
+        <div className="mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1 text-fuchsia-200">
           <span className="flex justify-between">
             <p className="font-bold font-mono">Liked Songs</p>
-            <button onClick={() => setSeeAll(!seeAll)}>See all</button>
+            <button
+              className=""
+              onClick={() => setSeeAll({ ...seeAll, Liked: !seeAll.Liked })}
+            >
+              See all
+            </button>
           </span>
-          {seeAll ? (
+          {seeAll.Liked ? (
             <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
               <List type="Liked" />
             </div>
@@ -126,10 +139,17 @@ export default function Home() {
         </div>
         <div className="mt-8 mb-4 w-full h-auto flex flex-col flex-grow m-1">
           <span className="flex justify-between">
-            <p className="font-bold font-mono">Playlist</p>
-            <button onClick={() => setSeeAll(!seeAll)}>See all</button>
+            <p className="font-bold font-mono text-fuchsia-200">Playlist</p>
+            <button
+              className="text-fuchsia-200"
+              onClick={() =>
+                setSeeAll({ ...seeAll, Playlist: !seeAll.Playlist })
+              }
+            >
+              See all
+            </button>
           </span>
-          {seeAll ? (
+          {seeAll.Playlist ? (
             <div className=" w-full  flex flex-col flex-grow rounded-3xl backdrop-blur-xl shadow-md flex-wrap flex-shrink-0 m-1 p-8 pr-12">
               <List type="Playlist" />
             </div>
@@ -141,7 +161,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="player w-[calc(25%)] h-full px-8 py-4 shadow-left fixed top-0 right-0">
+      <div className="player w-[calc(40%)] h-full px-8 py-4 shadow-left fixed top-0 right-0 flex justify-center items-center flex-col">
         <Player
           songs={addedSongs}
           currentSongIndex={currentSongIndex}

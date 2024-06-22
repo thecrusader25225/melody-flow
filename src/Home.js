@@ -2,6 +2,13 @@ import { useRef, useState, useEffect } from "react";
 import userLogo from "./userLogo.jpg";
 import { FaMusic } from "react-icons/fa";
 import Player from "./Player";
+import { BiCross, BiExit } from "react-icons/bi";
+import { RxExitFullScreen } from "react-icons/rx";
+import { GiExitDoor } from "react-icons/gi";
+import { MdExitToApp } from "react-icons/md";
+import { IoExit } from "react-icons/io5";
+import { IoMdExit } from "react-icons/io";
+import { CgClose } from "react-icons/cg";
 
 export default function Home({ page }) {
   const [addedSongs, setAddedSongs] = useState([]);
@@ -52,18 +59,23 @@ export default function Home({ page }) {
           ? addedSongs
           : type == "Liked"
           ? likedSongs
-          : null
+          : []
         ).map((song, index) => (
           <div
             key={index}
-            className={` m-2 p-2 text-wrap ${
+            className={`m-2 p-2 text-wrap ${
               seeAll[type]
-                ? "flex-grow-0 w-full h-16 border-b border-fuchsia-950 hover:scale-110 hover:bg-white hover:bg-opacity-5 hover:rounded-full duration-100 "
-                : "rounded-full w-32 h-32 hover:border-y border-purple-600 shadow-2xl hover:scale-125 duration-200 bg-inherit "
+                ? "flex-grow-0 w-full h-16 border-b border-fuchsia-950 hover:scale-110 hover:bg-white hover:bg-opacity-5 hover:rounded-full duration-100 flex justify-between"
+                : "rounded-full w-32 h-32 hover:border-y border-purple-600 shadow-2xl hover:scale-125 duration-200 bg-inherit"
             } hover:cursor-pointer transform transition-transform ease-linear flex flex-col flex-shrink-0 justify-center items-center`}
             onClick={() => handleSongClick(index, type)}
           >
-            <p className="text-white">{song.name}</p>
+            <span className="flex justify-between items-center w-full">
+              <p className="text-white">{song.name}</p>
+              <button>
+                <CgClose />
+              </button>
+            </span>
             {/* <FaMusic className="text-black" /> */}
           </div>
         ))}
@@ -72,9 +84,9 @@ export default function Home({ page }) {
   }
 
   return (
-    <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding overflow-y-auto ">
-      <div className="w-[calc(100%)] h-full flex flex-col custom-text-color px-8 pt-8 z-0">
-        <div className="w-full flex flex-col rounded-3xl px-4 h-1/3 bg-white bg-opacity-10 ">
+    <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding overflow-y-auto pb-24">
+      <div className="w-full h-full flex flex-col custom-text-color px-8 pt-8 z-0">
+        <div className="w-full flex flex-col rounded-3xl px-4 h-1/3 bg-white bg-opacity-10 flex-shrink-0">
           <div className="flex justify-between items-center w-full h-full">
             <span className="justify-center flex flex-col italic">
               <p className="font-extrabold font-mono adjustable-text-size">
@@ -104,7 +116,7 @@ export default function Home({ page }) {
         </div>
         <div className="mt-8 w-full h-auto flex flex-col flex-grow m-1 text-fuchsia-200 pb-24">
           <span className="flex justify-between">
-            <p className="font-bold font-mono ">Library</p>
+            <p className="font-bold font-mono">Library</p>
             <button
               onClick={() => setSeeAll({ ...seeAll, Library: !seeAll.Library })}
             >
@@ -112,23 +124,29 @@ export default function Home({ page }) {
             </button>
           </span>
           {seeAll.Library ? (
-            <div className=" w-full  flex flex-col rounded-3xl backdrop-blur-xl flex-wrap flex-shrink-0 m-1 p-8 pr-12 bg-white bg-opacity-10 ">
+            <div className="w-full flex flex-col rounded-3xl backdrop-blur-xl flex-wrap flex-shrink-0 m-1 p-8 pr-12 bg-white bg-opacity-10">
               <List type="Library" />
             </div>
           ) : (
-            <div className=" w-full h-auto min-h-16 flex items-center  overflow-x-auto overflow-y-hidden flex-none rounded-full bg-white bg-opacity-10  ">
+            <div className="w-full h-auto min-h-16 flex items-center overflow-x-auto overflow-y-hidden flex-none rounded-full bg-white bg-opacity-10">
               <List type="Library" />
             </div>
           )}
         </div>
       </div>
 
-      <div className="top-0 right-0 w-1/3 py-24 fixed h-full text-white font-bold font-mono overflow-y-auto p-1">
-        <p className="">{page === "Liked" ? "Liked Songs" : "Playlists"}</p>
-        <div className=" w-full  flex flex-col rounded-3xl backdrop-blur-xl flex-wrap flex-shrink-0 p-8 bg-white bg-opacity-10 ">
-          <List type="Liked" />
+      <div className="top-0 right-0 w-1/3 py-32 px-4 fixed h-full text-white font-bold font-mono">
+        <div className="w-full h-full flex flex-col bg-white bg-opacity-10 rounded-3xl">
+          <p className="px-8 pt-4">
+            {page === "Liked" ? "Liked Songs" : "Playlists"}
+          </p>
+          <div className="bg-white h-0.5 m-4" />
+          <div className="w-full flex-grow overflow-y-auto flex flex-col rounded-3xl backdrop-blur-xl px-8">
+            <List type="Liked" />
+          </div>
         </div>
       </div>
+
       <div className="player backdrop-blur-xl h-[calc(10%)] w-full fixed bottom-0 left-0 flex px-8 items-center shadow-top">
         <Player
           songs={addedSongs}

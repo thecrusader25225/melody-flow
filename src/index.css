@@ -14,7 +14,7 @@
         @apply hidden md:block 
     }
     .adjustible-padding{
-        @apply pl-0 py-0 md:pl-[calc(16%)] pr-[calc(35%)] md:py-24 
+        @apply pl-0 py-0 md:pl-[calc(16%)] md:pr-[calc(35%)] md:py-24 
     }
     .shadow-bottom{
         box-shadow: 0 8px 8px 0px rgba(0,0,0,0.07);

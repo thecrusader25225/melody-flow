@@ -126,7 +126,7 @@ export default function Player({
             </button>
           </div>
           <input
-            className="w-full"
+            className="w-full bg-purple-950"
             type="range"
             min={0}
             max={duration}

@@ -50,4 +50,15 @@
     scrollbar-color: #4a044e #701a75; /* Change the thumb and track colors as needed */
     
 }
+/* Custom styles for the range input */
+
+  /* WebKit Browsers */
+  input[type="range"]::-webkit-slider-runnable-track {
+    @apply w-full h-2 cursor-pointer bg-fuchsia-950 rounded-lg;
+  }
   
+  input[type="range"]::-webkit-slider-thumb {
+    @apply w-4 h-4 bg-black rounded-full shadow-md cursor-pointer -mt-1;
+    -webkit-appearance: none;
+  }
+ 

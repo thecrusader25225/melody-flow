@@ -1,14 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 import userLogo from "./userLogo.jpg";
-import { FaMusic } from "react-icons/fa";
 import Player from "./Player";
-import { BiCross, BiExit } from "react-icons/bi";
-import { RxExitFullScreen } from "react-icons/rx";
-import { GiExitDoor } from "react-icons/gi";
-import { MdExitToApp } from "react-icons/md";
-import { IoExit } from "react-icons/io5";
-import { IoMdExit } from "react-icons/io";
 import { CgClose } from "react-icons/cg";
+import { BiRightArrow } from "react-icons/bi";
+import { TiTick } from "react-icons/ti";
 
 export default function Home({ page }) {
   const [addedSongs, setAddedSongs] = useState([]);
@@ -21,8 +16,10 @@ export default function Home({ page }) {
     Recent: false,
   });
   const [likedSongs, setLikedSongs] = useState([]);
-
   const addedSongsRef = useRef(null);
+  const [playlists, setPlaylists] = useState([]);
+  const [isWriting, setIsWriting] = useState(false);
+  const [playlistName, setPlaylistName] = useState("");
 
   const handleSongAdd = (song) => {
     const file = song.target.files[0];
@@ -36,9 +33,9 @@ export default function Home({ page }) {
 
   const handleSongClick = (index, type) => {
     let indexToFind = index;
-    if (type == "Liked") {
+    if (type === "Liked") {
       const song = likedSongs[index];
-      indexToFind = addedSongs.findIndex((s) => song.url == s.url);
+      indexToFind = addedSongs.findIndex((s) => song.url === s.url);
     }
 
     setCurrentSongIndex(indexToFind);
@@ -55,11 +52,11 @@ export default function Home({ page }) {
   function List({ type }) {
     return (
       <>
-        {(type == "Library"
+        {(type === "Library"
           ? addedSongs
-          : type == "Liked"
+          : type === "Liked"
           ? likedSongs
-          : []
+          : playlists
         ).map((song, index) => (
           <div
             key={index}
@@ -82,7 +79,34 @@ export default function Home({ page }) {
       </>
     );
   }
+  const PlaylistList = () => (
+    <>
+      {playlists.map((playlist, index) => (
+        <div
+          key={index}
+          className="flex-grow-0 w-full h-16 border-b border-fuchsia-950 hover:scale-110 hover:bg-white hover:bg-opacity-5 hover:rounded-full duration-100 flex justify-between"
+        >
+          <span className="flex justify-between items-center w-full">
+            <p className="text-white">{playlist}</p>
+            <button>
+              <CgClose />
+            </button>
+          </span>
+        </div>
+      ))}
+    </>
+  );
+  //to close the textarea of playlist when page is turned over to liked songs
+  useEffect(() => {
+    if (page === "Liked") setIsWriting(false);
+  }, [page]);
 
+  //everytime isWriting is false, playlistName becomes ""
+  useEffect(() => {
+    if (!isWriting) setPlaylistName("");
+  }, [isWriting]);
+
+  console.log(isWriting);
   return (
     <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding overflow-y-auto pb-24">
       <div className="w-full h-full flex flex-col custom-text-color px-8 pt-8 z-0">
@@ -137,12 +161,35 @@ export default function Home({ page }) {
 
       <div className="top-0 right-0 w-1/3 py-32 px-4 fixed h-full text-white font-bold font-mono">
         <div className="w-full h-full flex flex-col bg-white bg-opacity-10 rounded-3xl">
-          <p className="px-8 pt-4">
-            {page === "Liked" ? "Liked Songs" : "Playlists"}
-          </p>
+          <div className="flex justify-between w-full h-auto px-8 pt-4">
+            <p className="">{page === "Liked" ? "Liked Songs" : "Playlists"}</p>
+            {page !== "Liked" && (
+              <button onClick={() => setIsWriting(true)}>Add</button>
+            )}
+          </div>
           <div className="bg-white h-0.5 m-4" />
+          {isWriting ? (
+            <div className="flex w-full h-auto items-center px-2 m-1">
+              <input
+                type="text"
+                className="bg-transparent border text-sm resize-none w-full"
+                value={playlistName}
+                onChange={(e) => setPlaylistName(e.target.value)}
+              />
+              <TiTick
+                onClick={() => {
+                  setPlaylists([...playlists, playlistName]);
+                  setIsWriting(false);
+                }}
+              />
+              <CgClose
+                className=" hover:cursor-pointer"
+                onClick={() => setIsWriting(false)}
+              />
+            </div>
+          ) : null}
           <div className="w-full flex-grow overflow-y-auto flex flex-col rounded-3xl backdrop-blur-xl px-8">
-            <List type="Liked" />
+            {page === "Liked" ? <List type="Liked" /> : <PlaylistList />}
           </div>
         </div>
       </div>

@@ -1,9 +1,31 @@
 import { useRef, useState, useEffect } from "react";
 import userLogo from "./userLogo.jpg";
 import Player from "./Player";
-import { CgAdd, CgClose } from "react-icons/cg";
+import { CgAdd, CgClose, CgExpand, CgPlayList } from "react-icons/cg";
 import { TiTick } from "react-icons/ti";
 import { FaBackward } from "react-icons/fa";
+import {
+  BiAddToQueue,
+  BiArrowBack,
+  BiCollapse,
+  BiCollapseVertical,
+  BiExpand,
+  BiExpandVertical,
+  BiPlay,
+} from "react-icons/bi";
+import {
+  MdAddAPhoto,
+  MdArrowBack,
+  MdArrowCircleDown,
+  MdArrowCircleUp,
+  MdExpandCircleDown,
+} from "react-icons/md";
+import { RiCollapseDiagonal2Fill } from "react-icons/ri";
+import { IoAddCircle, IoAddCircleOutline, IoCreate } from "react-icons/io5";
+import { GiPreviousButton, GiReturnArrow } from "react-icons/gi";
+import { BsBack, BsBackspace } from "react-icons/bs";
+import { FcPrevious } from "react-icons/fc";
+import { ImPrevious, ImPrevious2 } from "react-icons/im";
 
 export default function Home({ page }) {
   const [addedSongs, setAddedSongs] = useState([]);
@@ -81,19 +103,20 @@ export default function Home({ page }) {
         ).map((song, index) => (
           <div
             key={index}
-            className={`m-2 p-2 text-wrap ${
+            className={`m-2 text-wrap ${
               seeAll[type]
-                ? "flex-grow-0 w-full h-16 border-b border-fuchsia-950 hover:scale-110 hover:bg-white hover:bg-opacity-5 hover:rounded-full duration-100 flex justify-between"
-                : "rounded-full w-32 h-32 hover:border-y border-purple-600 shadow-2xl hover:scale-125 duration-200 bg-inherit"
-            } hover:cursor-pointer transform transition-transform ease-linear flex flex-col flex-shrink-0 justify-center items-center`}
+                ? "flex-grow-0 w-full h-12  duration-100 flex-row justify-between"
+                : "rounded-full w-32 h-32 hover:border-y border-purple-600 shadow-2xl  bg-inherit flex-col"
+            } hover:cursor-pointer transform transition-transform ease-linear hover:scale-105 duration-75 hover:rounded-full  flex flex-shrink-0 justify-center items-center`}
             onClick={() => handleSongClick(index, type)}
           >
-            <span className="flex justify-between items-center w-full">
+            <span className="hover:bg-white hover:bg-opacity-5 flex w-full h-full rounded-full items-center">
+              <BiPlay className="text-3xl" />
               <p className="text-white">{song.name}</p>
-              <button>
-                <CgClose />
-              </button>
             </span>
+            <button>
+              <CgClose className="checkmark" />
+            </button>
           </div>
         ))}
       </>
@@ -105,18 +128,23 @@ export default function Home({ page }) {
       {playlists.map((playlist, index) => (
         <div
           key={index}
-          className="flex-grow-0 w-full h-16 border-b border-fuchsia-950 hover:scale-110 hover:bg-white hover:bg-opacity-5 hover:rounded-full duration-100 flex justify-between cursor-pointer"
+          className="flex-grow-0 w-full h-12  hover:scale-105  hover:rounded-full duration-100 flex justify-between cursor-pointer items-center"
           onClick={() => {
             setOpenPlaylist(true);
             setPlaylistIndex(index);
           }}
         >
-          <span className="flex justify-between items-center w-full">
+          <span className="hover:bg-white hover:bg-opacity-5 flex w-full h-full rounded-full items-center">
+            <CgPlayList className="text-3xl" />
             <p className="text-white">{playlist}</p>
-            <button>
-              <CgClose />
-            </button>
           </span>
+          <CgClose
+            className="checkmark"
+            onClick={() => {
+              setPlaylists(playlists.filter((_, i) => i !== index));
+              setPlaylistSongs(playlistSongs.filter((_, i) => i !== index));
+            }}
+          />
         </div>
       ))}
     </>
@@ -158,7 +186,7 @@ export default function Home({ page }) {
               className="w-auto hover:bg-white hover:bg-opacity-10 p-2 cursor-pointer flex items-center rounded-full"
             >
               <p>Add songs </p>
-              <CgAdd className="text-2xl" />
+              <IoAddCircle className="text-2xl" />
             </span>
 
             <input
@@ -175,8 +203,9 @@ export default function Home({ page }) {
             <p className="font-bold font-mono">Library</p>
             <button
               onClick={() => setSeeAll({ ...seeAll, Library: !seeAll.Library })}
+              className="checkmark"
             >
-              {seeAll.Library ? "Collapse" : "Expand"}
+              {seeAll.Library ? <MdArrowCircleUp /> : <MdExpandCircleDown />}
             </button>
           </span>
           {seeAll.Library ? (
@@ -192,19 +221,26 @@ export default function Home({ page }) {
       </div>
       <div className="top-0 right-0 w-1/3 py-32 px-4 fixed h-full text-white font-bold font-mono">
         <div className="w-full h-full flex flex-col bg-white bg-opacity-10 rounded-3xl">
-          <FaBackward
-            onClick={() => {
-              setOpenPlaylist(false);
-              setSelectSongs(false);
-            }}
-          />
-          <div className="flex justify-between w-full h-auto px-8 pt-4">
-            <p className="">{page === "Liked" ? "Liked Songs" : "Playlists"}</p>
-            <p>{openPlaylist ? playlists[playlistIndex] : ""}</p>
+          <div className="flex justify-between w-full h-auto px-4 pt-4">
+            <span className="flex">
+              <span className="flex ">
+                {openPlaylist && (
+                  <MdArrowBack
+                    onClick={() => {
+                      setOpenPlaylist(false);
+                      setSelectSongs(false);
+                    }}
+                    className="checkmark"
+                  />
+                )}
+                <p>{page === "Liked" ? "Liked Songs" : "Playlists "}</p>
+              </span>
+              <p>{openPlaylist ? " > " + playlists[playlistIndex] : ""}</p>
+            </span>
 
             {openPlaylist ? (
               <button onClick={() => setSelectSongs(true)}>
-                Add
+                <IoAddCircle className="checkmark " />
               </button> /**adding songs in playist */
             ) : (
               page === "Playlist" && (
@@ -214,7 +250,7 @@ export default function Home({ page }) {
                     setPlaylistSongs([...playlistSongs, []]);
                   }}
                 >
-                  Add
+                  <IoAddCircle className="checkmark" />
                 </button> /**adding playlists */
               )
             )}
@@ -233,9 +269,10 @@ export default function Home({ page }) {
                   setPlaylists([...playlists, playlistName]);
                   setIsWriting(false);
                 }}
+                className="checkmark"
               />
               <CgClose
-                className=" hover:cursor-pointer"
+                className="checkmark"
                 onClick={() => setIsWriting(false)}
               />
             </div>

@@ -36,6 +36,9 @@
    .navButton{
     @apply  flex p-2 my-2 hover:bg-white hover:bg-opacity-10 rounded-full duration-200 
    }
+   .checkmark{
+    @apply hover:bg-white hover:bg-opacity-10 rounded-full p-1 text-2xl cursor-pointer;
+   }
 }
 
   /* Optional: Firefox custom scrollbar styles */
@@ -43,7 +46,7 @@
     scrollbar-width:none; /* Change the width as needed */
     scrollbar-color: #4a044e #701a75; /* Change the thumb and track colors as needed */
     }
-    
+
 /* Custom styles for the range input */
   /* WebKit Browsers */
   input[type="range"]::-webkit-slider-runnable-track {

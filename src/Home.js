@@ -17,13 +17,15 @@ export default function Home({ page }) {
   });
   const [likedSongs, setLikedSongs] = useState([]);
   const addedSongsRef = useRef(null);
-  const [playlists, setPlaylists] = useState([]);
-  const [isWriting, setIsWriting] = useState(false);
-  const [playlistName, setPlaylistName] = useState("");
-  const [playlistSongs, setPlaylistSongs] = useState([]);
-  const [openPlaylist, setOpenPlaylist] = useState(false);
-  const [playlistIndex, setPlaylistIndex] = useState(null);
-  const [selectSongs, setSelectSongs] = useState(false);
+
+  const [playlists, setPlaylists] = useState([]); //to keep track of playlist names
+  const [playlistSongs, setPlaylistSongs] = useState([]); //to keep track of all songs in different playlists
+
+  const [isWriting, setIsWriting] = useState(false); //to keep track of whether i am writing playlist name or not
+  const [playlistName, setPlaylistName] = useState(""); //to keep track of the input box to type playlist name
+  const [openPlaylist, setOpenPlaylist] = useState(false); //to keep track of whether a playlist is opened or not
+  const [playlistIndex, setPlaylistIndex] = useState(null); //to keep track of indexes of playlist
+  const [selectSongs, setSelectSongs] = useState(false); //to keep track of which song is selected to add to playlist
 
   const handleSongAdd = (song) => {
     const file = song.target.files[0];
@@ -38,10 +40,15 @@ export default function Home({ page }) {
   const handleSongClick = (index, type) => {
     if (selectSongs) {
       const songToAdd = addedSongs[index];
-      const isPresent = playlistSongs.some(
+      const isPresent = playlistSongs[playlistIndex].some(
         (song) => song.url === songToAdd.url
       );
-      if (!isPresent) setPlaylistSongs([...playlistSongs, addedSongs[index]]);
+      if (!isPresent)
+        setPlaylistSongs(
+          playlistSongs.map((playlist, i) =>
+            i === playlistIndex ? [...playlistSongs[i], songToAdd] : playlist
+          )
+        );
 
       setSelectSongs(false);
     } else {
@@ -69,7 +76,7 @@ export default function Home({ page }) {
           ? addedSongs
           : type === "Liked"
           ? likedSongs
-          : playlistSongs
+          : playlistSongs[playlistIndex]
         ).map((song, index) => (
           <div
             key={index}
@@ -190,10 +197,19 @@ export default function Home({ page }) {
             <p>{openPlaylist ? playlists[playlistIndex] : ""}</p>
 
             {openPlaylist ? (
-              <button onClick={() => setSelectSongs(true)}>Add</button>
+              <button onClick={() => setSelectSongs(true)}>
+                Add
+              </button> /**adding songs in playist */
             ) : (
               page === "Playlist" && (
-                <button onClick={() => setIsWriting(true)}>Add</button>
+                <button
+                  onClick={() => {
+                    setIsWriting(true);
+                    setPlaylistSongs([...playlistSongs, []]);
+                  }}
+                >
+                  Add
+                </button> /**adding playlists */
               )
             )}
           </div>

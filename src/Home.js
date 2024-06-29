@@ -3,7 +3,6 @@ import userLogo from "./userLogo.jpg";
 import Player from "./Player";
 import { CgClose } from "react-icons/cg";
 import { TiTick } from "react-icons/ti";
-import { BsBack } from "react-icons/bs";
 import { FaBackward } from "react-icons/fa";
 
 export default function Home({ page }) {
@@ -24,6 +23,7 @@ export default function Home({ page }) {
   const [playlistSongs, setPlaylistSongs] = useState([]);
   const [openPlaylist, setOpenPlaylist] = useState(false);
   const [playlistIndex, setPlaylistIndex] = useState(null);
+  const [selectSongs, setSelectSongs] = useState(false);
 
   const handleSongAdd = (song) => {
     const file = song.target.files[0];
@@ -36,13 +36,22 @@ export default function Home({ page }) {
   };
 
   const handleSongClick = (index, type) => {
-    let indexToFind = index;
-    if (type === "Liked") {
-      const song = likedSongs[index];
-      indexToFind = addedSongs.findIndex((s) => song.url === s.url);
-    }
+    if (selectSongs) {
+      const songToAdd = addedSongs[index];
+      const isPresent = playlistSongs.some(
+        (song) => song.url === songToAdd.url
+      );
+      if (!isPresent) setPlaylistSongs([...playlistSongs, addedSongs[index]]);
 
-    setCurrentSongIndex(indexToFind);
+      setSelectSongs(false);
+    } else {
+      let indexToFind = index;
+      if (type === "Liked") {
+        const song = likedSongs[index];
+        indexToFind = addedSongs.findIndex((s) => song.url === s.url);
+      }
+      setCurrentSongIndex(indexToFind);
+    }
   };
 
   useEffect(() => {
@@ -77,12 +86,12 @@ export default function Home({ page }) {
                 <CgClose />
               </button>
             </span>
-            {/* <FaMusic className="text-black" /> */}
           </div>
         ))}
       </>
     );
   }
+
   const PlaylistList = () => (
     <>
       {playlists.map((playlist, index) => (
@@ -104,17 +113,19 @@ export default function Home({ page }) {
       ))}
     </>
   );
-  //to close the textarea of playlist when page is turned over to liked songs
+
   useEffect(() => {
-    if (page === "Liked") setIsWriting(false);
+    if (page === "Liked") {
+      setIsWriting(false);
+      setOpenPlaylist(false);
+      setSelectSongs(false);
+    }
   }, [page]);
 
-  //everytime isWriting is false, playlistName becomes ""
   useEffect(() => {
     if (!isWriting) setPlaylistName("");
   }, [isWriting]);
-
-  console.log(isWriting);
+  console.log(selectSongs);
   return (
     <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding overflow-y-auto pb-24">
       <div className="w-full h-full flex flex-col custom-text-color px-8 pt-8 z-0">
@@ -166,15 +177,24 @@ export default function Home({ page }) {
           )}
         </div>
       </div>
-
       <div className="top-0 right-0 w-1/3 py-32 px-4 fixed h-full text-white font-bold font-mono">
         <div className="w-full h-full flex flex-col bg-white bg-opacity-10 rounded-3xl">
-          <FaBackward onClick={() => setOpenPlaylist(false)} />
+          <FaBackward
+            onClick={() => {
+              setOpenPlaylist(false);
+              setSelectSongs(false);
+            }}
+          />
           <div className="flex justify-between w-full h-auto px-8 pt-4">
             <p className="">{page === "Liked" ? "Liked Songs" : "Playlists"}</p>
             <p>{openPlaylist ? playlists[playlistIndex] : ""}</p>
-            {page !== "Liked" && (
-              <button onClick={() => setIsWriting(true)}>Add</button>
+
+            {openPlaylist ? (
+              <button onClick={() => setSelectSongs(true)}>Add</button>
+            ) : (
+              page === "Playlist" && (
+                <button onClick={() => setIsWriting(true)}>Add</button>
+              )
             )}
           </div>
           <div className="bg-white h-0.5 m-4" />
@@ -199,7 +219,9 @@ export default function Home({ page }) {
             </div>
           ) : null}
           <div className="w-full flex-grow overflow-y-auto flex flex-col rounded-3xl backdrop-blur-xl px-8">
-            {openPlaylist ? null : page === "Liked" ? (
+            {openPlaylist ? (
+              <List type="Playlist" />
+            ) : page === "Liked" ? (
               <List type="Liked" />
             ) : (
               <PlaylistList />

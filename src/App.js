@@ -6,7 +6,7 @@ import { useState } from "react";
 
 function App() {
   const [page, setPage] = useState("Liked");
-
+  const [themes, setThemes] = useState(0);
   // console.log("liked: " + seeAll["Liked"]);
   return (
     <>
@@ -14,7 +14,12 @@ function App() {
         {/* top nav bar */}
         <div className="fixed flex justify-between items-center p-4 top-0 left-0 h-24 w-full shadow-lg bg-transparent backdrop-blur z-10 overflow-hidden toggle-visibility">
           <p>Music Player</p>
-          <PiSelectionBackgroundBold className="checkmark" />
+          <PiSelectionBackgroundBold
+            className="checkmark"
+            onClick={() => {
+              setThemes(themes < 2 ? themes + 1 : 0);
+            }}
+          />
         </div>
 
         {/* left nav bar */}
@@ -49,7 +54,7 @@ function App() {
         </div>
 
         <div className="  w-full h-full ">
-          <Home page={page} />
+          <Home page={page} themes={themes} />
         </div>
       </div>
     </>

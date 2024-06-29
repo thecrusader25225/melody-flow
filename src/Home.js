@@ -12,7 +12,7 @@ import {
 } from "react-icons/md";
 import { IoAddCircle } from "react-icons/io5";
 
-export default function Home({ page }) {
+export default function Home({ page, themes }) {
   const [addedSongs, setAddedSongs] = useState([]);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1); // -1 means no song selected
   const [time, setTime] = useState("");
@@ -34,7 +34,6 @@ export default function Home({ page }) {
     Playlist: true,
     Recent: false,
   });
-  const [themes, setThemes] = useState(1);
 
   const handleSongAdd = (song) => {
     const file = song.target.files[0];
@@ -43,7 +42,11 @@ export default function Home({ page }) {
   };
 
   const handleClick = () => {
-    addedSongsRef.current.click();
+    try {
+      addedSongsRef.current.click();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleSongClick = (index, type) => {
@@ -165,11 +168,19 @@ export default function Home({ page }) {
         themes === 0
           ? `bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900`
           : themes === 1
-          ? `bg-gradient-to-tl from-slate-900 via-sky-900 to-slate-900`
+          ? `bg-gradient-to-tl from-neutral-900 via-sky-900 to-neutral-900`
           : `bg-black`
       } adjustible-padding overflow-y-auto pb-24`}
     >
-      <div className="w-full h-full flex flex-col custom-text-color px-8 pt-8 z-0">
+      <div
+        className={`w-full h-full flex flex-col ${
+          themes === 0
+            ? "bg-gradient-to-r from-fuchsia-400 via-pink-100 to-fuchsia-400 bg-clip-text text-transparent"
+            : themes === 1
+            ? "bg-gradient-to-r from-sky-500 via-sky-200 to-sky-500 bg-clip-text text-transparent"
+            : "bg-gradient-to-r from-fuchsia-400 via-pink-100 to-fuchsia-400 bg-clip-text text-transparent"
+        } px-8 pt-8 z-0`}
+      >
         <div className="w-full flex flex-col rounded-3xl px-4 h-1/3 bg-white bg-opacity-10 flex-shrink-0">
           <div className="flex justify-between items-center w-full h-full">
             <span className="justify-center flex flex-col italic">

@@ -30,8 +30,11 @@
     .pt-half{
         padding-top: 50%;
     }
-    .custom-text-color{
+    .firstThemeText{
         @apply bg-gradient-to-r from-fuchsia-400 via-pink-100 to-fuchsia-400 bg-clip-text text-transparent
+    }
+    .secondThemeText{
+        @apply bg-gradient-to-b from-sky-500 to-blue-900 bg-clip-text text-transparent
     }
    .navButton{
     @apply  flex p-2 my-2 hover:bg-white hover:bg-opacity-10 rounded-full duration-200 

@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import userLogo from "./userLogo.jpg";
 import Player from "./Player";
-import { CgClose } from "react-icons/cg";
+import { CgAdd, CgClose } from "react-icons/cg";
 import { TiTick } from "react-icons/ti";
 import { FaBackward } from "react-icons/fa";
 
@@ -9,12 +9,7 @@ export default function Home({ page }) {
   const [addedSongs, setAddedSongs] = useState([]);
   const [currentSongIndex, setCurrentSongIndex] = useState(-1); // -1 means no song selected
   const [time, setTime] = useState("");
-  const [seeAll, setSeeAll] = useState({
-    Library: false,
-    Liked: true,
-    Playlist: true,
-    Recent: false,
-  });
+
   const [likedSongs, setLikedSongs] = useState([]);
   const addedSongsRef = useRef(null);
 
@@ -26,6 +21,12 @@ export default function Home({ page }) {
   const [openPlaylist, setOpenPlaylist] = useState(false); //to keep track of whether a playlist is opened or not
   const [playlistIndex, setPlaylistIndex] = useState(null); //to keep track of indexes of playlist
   const [selectSongs, setSelectSongs] = useState(false); //to keep track of which song is selected to add to playlist
+  const [seeAll, setSeeAll] = useState({
+    Library: false,
+    Liked: true,
+    Playlist: true,
+    Recent: false,
+  });
 
   const handleSongAdd = (song) => {
     const file = song.target.files[0];
@@ -132,7 +133,6 @@ export default function Home({ page }) {
   useEffect(() => {
     if (!isWriting) setPlaylistName("");
   }, [isWriting]);
-  console.log(selectSongs);
   return (
     <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding overflow-y-auto pb-24">
       <div className="w-full h-full flex flex-col custom-text-color px-8 pt-8 z-0">
@@ -152,9 +152,15 @@ export default function Home({ page }) {
               className="adjustible-image-size rounded-tr-2xl m-2"
             />
           </div>
-          <div className="border-t-2 p-2 flex justify-end text-fuchsia-200">
-            <p>You might wanna add some music...</p>
-            <button onClick={handleClick}>Enter</button>
+          <div className="border-t-2  flex justify-end text-fuchsia-200 ">
+            <span
+              onClick={handleClick}
+              className="w-auto hover:bg-white hover:bg-opacity-10 p-2 cursor-pointer flex items-center rounded-full"
+            >
+              <p>Add songs </p>
+              <CgAdd className="text-2xl" />
+            </span>
+
             <input
               type="file"
               ref={addedSongsRef}

@@ -19,12 +19,6 @@
     .shadow-bottom{
         box-shadow: 0 8px 8px 0px rgba(0,0,0,0.07);
     }
-    .shadow-right{
-        box-shadow: 8px 0px 16px 4px rgba(0, 0, 0, 0.07);
-    }
-    .shadow-left{
-        box-shadow: -8px 0px 16px 4px rgba(0, 0, 0, 0.1);
-    }
     .shadow-top{
         box-shadow: 0 -8px 8px 0 rgba(0, 0, 0, 0.07);
     }
@@ -48,10 +42,9 @@
   * {
     scrollbar-width:none; /* Change the width as needed */
     scrollbar-color: #4a044e #701a75; /* Change the thumb and track colors as needed */
+    }
     
-}
 /* Custom styles for the range input */
-
   /* WebKit Browsers */
   input[type="range"]::-webkit-slider-runnable-track {
     @apply w-full h-2 cursor-pointer bg-fuchsia-950 rounded-lg;

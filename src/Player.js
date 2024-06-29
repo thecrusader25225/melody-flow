@@ -1,6 +1,12 @@
 import { BiMusic, BiHeart } from "react-icons/bi";
 import { useState, useEffect } from "react";
 import { HiHeart } from "react-icons/hi";
+import {
+  GiNextButton,
+  GiPauseButton,
+  GiPlayButton,
+  GiPreviousButton,
+} from "react-icons/gi";
 
 export default function Player({
   songs,
@@ -111,18 +117,22 @@ export default function Player({
           </p>
         </span>
         <span className="flex flex-col w-3/4 items-center">
-          <div className="z-10 flex justify-between w-1/2">
+          <div className="z-10 flex justify-between w-1/2 p-2">
             <button className="text-3xl z-10" onClick={handlePrevious}>
-              «
+              <GiPreviousButton className="checkmark" />
             </button>
             <button className="playpause z-10" onClick={handlePlayPause}>
-              {isPlaying ? "||" : "▶"}
+              {isPlaying ? (
+                <GiPauseButton className="checkmark" />
+              ) : (
+                <GiPlayButton className="checkmark" />
+              )}
             </button>
             <button className="text-3xl z-10" onClick={handleNext}>
-              »
+              <GiNextButton className="checkmark" />
             </button>
             <button onClick={handleLikedSong}>
-              <HiHeart />
+              <HiHeart className="checkmark" />
             </button>
           </div>
           <input

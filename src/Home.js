@@ -1,31 +1,16 @@
 import { useRef, useState, useEffect } from "react";
 import userLogo from "./userLogo.jpg";
+import "./index.css";
 import Player from "./Player";
-import { CgAdd, CgClose, CgExpand, CgPlayList } from "react-icons/cg";
+import { CgClose, CgPlayList } from "react-icons/cg";
 import { TiTick } from "react-icons/ti";
-import { FaBackward } from "react-icons/fa";
+import { BiPlay } from "react-icons/bi";
 import {
-  BiAddToQueue,
-  BiArrowBack,
-  BiCollapse,
-  BiCollapseVertical,
-  BiExpand,
-  BiExpandVertical,
-  BiPlay,
-} from "react-icons/bi";
-import {
-  MdAddAPhoto,
   MdArrowBack,
-  MdArrowCircleDown,
   MdArrowCircleUp,
   MdExpandCircleDown,
 } from "react-icons/md";
-import { RiCollapseDiagonal2Fill } from "react-icons/ri";
-import { IoAddCircle, IoAddCircleOutline, IoCreate } from "react-icons/io5";
-import { GiPreviousButton, GiReturnArrow } from "react-icons/gi";
-import { BsBack, BsBackspace } from "react-icons/bs";
-import { FcPrevious } from "react-icons/fc";
-import { ImPrevious, ImPrevious2 } from "react-icons/im";
+import { IoAddCircle } from "react-icons/io5";
 
 export default function Home({ page }) {
   const [addedSongs, setAddedSongs] = useState([]);
@@ -49,6 +34,7 @@ export default function Home({ page }) {
     Playlist: true,
     Recent: false,
   });
+  const [themes, setThemes] = useState(1);
 
   const handleSongAdd = (song) => {
     const file = song.target.files[0];
@@ -119,6 +105,16 @@ export default function Home({ page }) {
             </button>
           </div>
         ))}
+        {likedSongs.length === 0 && type === "Liked" ? (
+          <p>No liked songs added yet.</p>
+        ) : (
+          ""
+        )}
+        {addedSongs.length === 0 && type === "Library" ? (
+          <p>No songs added in Library yet.</p>
+        ) : (
+          ""
+        )}
       </>
     );
   }
@@ -147,6 +143,7 @@ export default function Home({ page }) {
           />
         </div>
       ))}
+      {playlists.length === 0 ? <p>No playlists created yet.</p> : ""}
     </>
   );
 
@@ -161,8 +158,17 @@ export default function Home({ page }) {
   useEffect(() => {
     if (!isWriting) setPlaylistName("");
   }, [isWriting]);
+
   return (
-    <div className="w-full h-full flex flex-row bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900 adjustible-padding overflow-y-auto pb-24">
+    <div
+      className={`w-full h-full flex flex-row ${
+        themes === 0
+          ? `bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900`
+          : themes === 1
+          ? `bg-gradient-to-tl from-slate-900 via-sky-900 to-slate-900`
+          : `bg-black`
+      } adjustible-padding overflow-y-auto pb-24`}
+    >
       <div className="w-full h-full flex flex-col custom-text-color px-8 pt-8 z-0">
         <div className="w-full flex flex-col rounded-3xl px-4 h-1/3 bg-white bg-opacity-10 flex-shrink-0">
           <div className="flex justify-between items-center w-full h-full">

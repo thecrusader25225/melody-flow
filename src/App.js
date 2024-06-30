@@ -1,7 +1,7 @@
 import Home from "./Home";
 import { FaHeart } from "react-icons/fa6";
 import { PiPlaylist, PiSelectionBackgroundBold } from "react-icons/pi";
-import { BiLogIn } from "react-icons/bi";
+import { BiLogIn, BiSearch } from "react-icons/bi";
 import { useState } from "react";
 
 function App() {
@@ -27,22 +27,27 @@ function App() {
           <span className="flex flex-col justify-center  bg-white bg-opacity-10 p-2 font-bold font-mono rounded-2xl">
             <button
               className={`navButton ${
-                page === "Liked" ? "bg-white bg-opacity-10" : ""
+                page === "Liked" && "bg-white bg-opacity-10"
               }`}
               onClick={() => setPage("Liked")}
             >
               <FaHeart className="text-3xl pr-2" />
               <p>Liked Songs</p>
             </button>
-            <div className="bg-white h-0.5 w-full"></div>
+            <div className="bg-white h-0.5 w-full" />
             <button
               className={`navButton ${
-                page === "Playlist" ? "bg-white bg-opacity-10" : ""
+                page === "Playlist" && "bg-white bg-opacity-10"
               }`}
               onClick={() => setPage("Playlist")}
             >
               <PiPlaylist className=" text-3xl pr-2" />
               <p>Playlists</p>
+            </button>
+            <div className="bg-white h-0.5 w-full" />
+            <button className="navButton">
+              <BiSearch className="text-3xl pr-2" />
+              <p>Search</p>
             </button>
           </span>
           <span className="flex flex-col justify-center  bg-white bg-opacity-10 p-2 font-bold  font-mono rounded-2xl">

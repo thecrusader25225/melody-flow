@@ -34,6 +34,20 @@ export default function Home({ page, themes }) {
     Playlist: true,
     Recent: false,
   });
+  const [truncateLength, setTruncateLength] = useState(10); //smallest truncate length is 10 chars
+  useEffect(() => {
+    const updateTruncateLength = () => {
+      if (window.innerWidth <= 640) setTruncateLength(5); //sm
+      else if (window.innerWidth <= 768) setTruncateLength(5); //md
+      else if (window.innerWidth <= 1024) setTruncateLength(10); //lg
+      else if (window.innerWidth <= 1280) setTruncateLength(20); //xl
+      else if (window.innerWidth <= 1536) setTruncateLength(30); //2xl
+      else setTruncateLength(40); //max is 40 chars
+    };
+    updateTruncateLength();
+    window.addEventListener("resize", updateTruncateLength);
+    return () => window.removeEventListener("resize", updateTruncateLength);
+  }, [window.innerWidth]);
 
   const handleSongAdd = (song) => {
     const file = song.target.files[0];
@@ -100,8 +114,20 @@ export default function Home({ page, themes }) {
             onClick={() => handleSongClick(index, type)}
           >
             <span className="hover:bg-white hover:bg-opacity-5 flex w-full h-full rounded-full items-center">
-              <BiPlay className="text-3xl" />
-              <p className="text-white">{song.name}</p>
+              <BiPlay className="text-3xl w-16" />
+              {seeAll[index] ? (
+                <p className="text-white">
+                  {song.name.length >= 2 * truncateLength
+                    ? song.name.substring(0, 2 * truncateLength) + "..."
+                    : song.name}
+                </p>
+              ) : (
+                <p>
+                  {song.name.length > 30
+                    ? song.name.substring(0, 31) + "..."
+                    : song.name}
+                </p>
+              )}
             </span>
             <button>
               <CgClose className="checkmark" />
@@ -135,7 +161,11 @@ export default function Home({ page, themes }) {
         >
           <span className="hover:bg-white hover:bg-opacity-5 flex w-full h-full rounded-full items-center">
             <CgPlayList className="text-3xl" />
-            <p className="text-white">{playlist}</p>
+            <p className="text-white">
+              {playlist.length >= truncateLength
+                ? playlist.substring(0, truncateLength) + "..."
+                : playlist}
+            </p>
           </span>
           <CgClose
             className="checkmark"
@@ -197,7 +227,7 @@ export default function Home({ page, themes }) {
               className="adjustible-image-size rounded-tr-2xl m-2"
             />
           </div>
-          <div className="border-t-2  flex justify-end text-fuchsia-200 ">
+          <div className="border-t-2  flex justify-end text-white ">
             <span
               onClick={handleClick}
               className="w-auto hover:bg-white hover:bg-opacity-10 p-2 cursor-pointer flex items-center rounded-full"
@@ -215,7 +245,7 @@ export default function Home({ page, themes }) {
             />
           </div>
         </div>
-        <div className="mt-8 w-full h-auto flex flex-col flex-grow m-1 text-fuchsia-200 pb-24">
+        <div className="mt-8 w-full h-auto flex flex-col flex-grow m-1 text-white pb-24">
           <span className="flex justify-between">
             <p className="font-bold font-mono">Library</p>
             <button
@@ -230,7 +260,7 @@ export default function Home({ page, themes }) {
               <List type="Library" />
             </div>
           ) : (
-            <div className="w-full h-auto min-h-16 flex items-center overflow-x-auto overflow-y-hidden flex-none rounded-full bg-white bg-opacity-10">
+            <div className="w-full h-auto min-h-16 flex items-center overflow-x-auto overflow-y-hidden flex-none rounded-full bg-white bg-opacity-10 p-2">
               <List type="Library" />
             </div>
           )}
@@ -277,17 +307,19 @@ export default function Home({ page, themes }) {
             <div className="flex w-full h-auto items-center px-2 m-1">
               <input
                 type="text"
-                className="bg-transparent border text-sm resize-none w-full"
+                className="bg-transparent border-dashed rounded-3xl border text-sm resize-none w-full outline-none px-2 "
                 value={playlistName}
                 onChange={(e) => setPlaylistName(e.target.value)}
               />
-              <TiTick
-                onClick={() => {
-                  setPlaylists([...playlists, playlistName]);
-                  setIsWriting(false);
-                }}
-                className="checkmark"
-              />
+              {playlistName.length !== 0 && (
+                <TiTick
+                  onClick={() => {
+                    setPlaylists([...playlists, playlistName]);
+                    setIsWriting(false);
+                  }}
+                  className="checkmark"
+                />
+              )}
               <CgClose
                 className="checkmark"
                 onClick={() => setIsWriting(false)}
@@ -306,13 +338,14 @@ export default function Home({ page, themes }) {
         </div>
       </div>
 
-      <div className="player backdrop-blur-xl h-[calc(10%)] w-full fixed bottom-0 left-0 flex px-8 items-center shadow-top">
+      <div className="player backdrop-blur-xl h-[calc(10%)] w-full fixed bottom-0 left-0 flex px-8  items-center  ">
         <Player
           songs={addedSongs}
           currentSongIndex={currentSongIndex}
           setCurrentSongIndex={setCurrentSongIndex}
           likedSongs={likedSongs}
           setLikedSongs={setLikedSongs}
+          truncateLength={truncateLength}
         />
       </div>
     </div>

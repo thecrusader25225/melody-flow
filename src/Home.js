@@ -99,6 +99,20 @@ export default function Home({ page, themes }) {
   function List({ type }) {
     return (
       <>
+        {selectSongs && type === "Playlist" ? (
+          <span className="flex items-center bg-white bg-opacity-10 rounded-3xl p-2 ">
+            <p className="text-xs text-yellow-400">
+              Click on the song from Library which you want to add in the
+              playlist...
+            </p>
+            <CgClose
+              className=" cursor-pointer checkmark min-w-8"
+              onClick={() => setSelectSongs(false)}
+            />
+          </span>
+        ) : (
+          ""
+        )}
         {(type === "Library"
           ? addedSongs
           : type === "Liked"
@@ -111,10 +125,14 @@ export default function Home({ page, themes }) {
               seeAll[type]
                 ? "flex-grow-0 w-full h-12  duration-100 flex-row justify-between"
                 : "rounded-full w-32 h-32 hover:border-y border-purple-600 shadow-2xl  bg-inherit flex-col"
-            } hover:cursor-pointer transform transition-transform ease-linear hover:scale-105 duration-75 hover:rounded-full  flex flex-shrink-0 justify-center items-center`}
+            } hover:cursor-pointer transform transition-transform ease-linear hover:scale-105 duration-75 hover:rounded-full  flex flex-shrink-0 justify-center items-center `}
             onClick={() => handleSongClick(index, type)}
           >
-            <span className="hover:bg-white hover:bg-opacity-5 flex w-full h-full rounded-full items-center">
+            <span
+              className={`hover:bg-white hover:bg-opacity-10 flex w-full h-full rounded-full items-center ${
+                currentSongIndex === index && "bg-white bg-opacity-10"
+              }`}
+            >
               <BiPlay className="text-3xl w-16 min-w-8" />
               {seeAll[index] ? (
                 <p className="text-white">
@@ -124,8 +142,8 @@ export default function Home({ page, themes }) {
                 </p>
               ) : (
                 <p>
-                  {song.name.length > 30
-                    ? song.name.substring(0, 31) + "..."
+                  {song.name.length > 20
+                    ? song.name.substring(0, 21) + "..."
                     : song.name}
                 </p>
               )}
@@ -160,7 +178,7 @@ export default function Home({ page, themes }) {
             setPlaylistIndex(index);
           }}
         >
-          <span className="hover:bg-white hover:bg-opacity-5 flex w-full h-full rounded-full items-center">
+          <span className="hover:bg-white hover:bg-opacity-10 flex w-full h-full rounded-full items-center">
             <CgPlayList className="text-3xl" />
             <p className="text-white">
               {playlist.length >= truncateLength

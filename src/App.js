@@ -3,7 +3,7 @@ import { FaHeart } from "react-icons/fa6";
 import { PiPlaylist, PiSelectionBackgroundBold } from "react-icons/pi";
 import { BiLogIn, BiSearch } from "react-icons/bi";
 import { useState } from "react";
-import logo from "./firstThemeLogo.png";
+import logo from "./logo.png";
 import { BsGithub } from "react-icons/bs";
 
 function App() {
@@ -14,14 +14,14 @@ function App() {
     <>
       <div className="w-screen h-screen text-white">
         {/* top nav bar */}
-        <div className="fixed flex justify-between items-center p-4 top-0 left-0 h-24 w-full shadow-lg bg-transparent backdrop-blur z-10 overflow-hidden toggle-visibility">
+        <div className="fixed flex justify-center items-center p-4 top-0 left-0 h-24 w-full shadow-lg bg-transparent backdrop-blur z-10 overflow-hidden toggle-visibility">
           <span className="flex items-center">
             <img src={logo} alt="Logo" className="w-20" />
             <p className="text-4xl font-mono font">Melody Flow</p>
           </span>
           <span className="flex items-center ">
             <PiSelectionBackgroundBold
-              className="checkmark text-3xl"
+              className="checkmark text-4xl"
               onClick={() => {
                 setThemes(themes < 2 ? themes + 1 : 0);
               }}

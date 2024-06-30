@@ -5,10 +5,10 @@
 @layer components{
     
     .adjustable-text-size{
-        @apply text-3xl xl:text-6xl lg:text-5xl md:text-3xl sm:text-3xl;
+        @apply text-3xl 2xl:text-6xl xl:text-5xl lg:text-4xl md:text-3xl sm:text-xl;
     }
     .adjustible-image-size{
-        @apply w-20 xl:w-40 lg:w-32 md:w-20 sm:w-20
+        @apply w-20 2xl:w-36 xl:w-32 lg:w-28 md:w-24 sm:w-20
     }
     .toggle-visibility{
         @apply hidden md:block 

@@ -106,11 +106,9 @@ export default function Player({
         { url: currentSong.url, name: currentSong.name },
       ]);
   };
-  console.log("Liked songs: " + likedSongs);
-  console.log("Current song: " + currentSong.name);
   return (
     <>
-      <div className="h-auto w-full flex flex-row justify-around items-center bg-white bg-opacity-10 rounded-2xl p-2">
+      <div className="h-auto w-full flex flex-row justify-around items-center  rounded-2xl p-2 backdrop-blur-lg bg-white bg-opacity-10">
         <span className="flex flex-row items-center justify-start w-1/4">
           <BiMusic className=" text-4xl mr-4 w-16 min-w-16" />
           <p className=" text-center font-serif z-10 text-white text-wrap">

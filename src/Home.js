@@ -47,7 +47,8 @@ export default function Home({ page, themes }) {
     updateTruncateLength();
     window.addEventListener("resize", updateTruncateLength);
     return () => window.removeEventListener("resize", updateTruncateLength);
-  }, [window.innerWidth]);
+  }, []);
+  useEffect(() => {}, []);
 
   const handleSongAdd = (song) => {
     const file = song.target.files[0];
@@ -114,11 +115,11 @@ export default function Home({ page, themes }) {
             onClick={() => handleSongClick(index, type)}
           >
             <span className="hover:bg-white hover:bg-opacity-5 flex w-full h-full rounded-full items-center">
-              <BiPlay className="text-3xl w-16" />
+              <BiPlay className="text-3xl w-16 min-w-8" />
               {seeAll[index] ? (
                 <p className="text-white">
                   {song.name.length >= 2 * truncateLength
-                    ? song.name.substring(0, 2 * truncateLength) + "..."
+                    ? song.name.substring(0, 2 * truncateLength + 1) + "..."
                     : song.name}
                 </p>
               ) : (
@@ -163,7 +164,7 @@ export default function Home({ page, themes }) {
             <CgPlayList className="text-3xl" />
             <p className="text-white">
               {playlist.length >= truncateLength
-                ? playlist.substring(0, truncateLength) + "..."
+                ? playlist.substring(0, truncateLength + 1) + "..."
                 : playlist}
             </p>
           </span>
@@ -192,6 +193,49 @@ export default function Home({ page, themes }) {
     if (!isWriting) setPlaylistName("");
   }, [isWriting]);
 
+  /**I am adding default songs for demonstration.
+   * This 'defaultSongs' array is made of songs using relative URL from the 'public/test-songs' folder
+   * When you input a song by clicking 'Add song' in the player, you are adding the song by creating a blob URL dynamically.
+   * Since blob URLs are unique everytime they are created I have used relative URLs to showcase some songs as an example.
+   * If you are using this module for your own project then remove the following.
+   */
+  const defaultSongs = [
+    {
+      url: "test-songs/Attention - Charlie Puth.mp3",
+      name: "Attention - Charlie Puth.mp3",
+    },
+    {
+      url: "test-songs/Baby One More Time - Britney Spears.mp3",
+      name: "Baby One More Time - Britney Spears.mp3",
+    },
+    {
+      url: "test-songs/Closer - The Chainsmokers.mp3",
+      name: "Closer - The Chainsmokers.mp3",
+    },
+    {
+      url: "test-songs/Golden Hour - JVKE.mp3",
+      name: "Golden Hour - JVKE.mp3",
+    },
+    {
+      url: "test-songs/My Heart Will Go On - Celine Dion.mp3",
+      name: "My Heart Will Go On - Celine Dion.mp3",
+    },
+    {
+      url: "test-songs/Perfect - Ed Sheeran.mp3",
+      name: "Perfect - Ed Sheeran.mp3",
+    },
+    {
+      url: "test-songs/Houdini - Eminem.mp3",
+      name: "Houdini - Eminem.mp3",
+    },
+    {
+      url: "test-songs/Stuck With U - Ariana Grande, Justin Bieber.mp3",
+      name: "Stuck With U - Ariana Grande, Justin Bieber.mp3",
+    },
+  ];
+  useEffect(() => setAddedSongs(defaultSongs), []);
+
+  console.log(addedSongs);
   return (
     <div
       className={`w-full h-full flex flex-row ${
@@ -213,7 +257,7 @@ export default function Home({ page, themes }) {
       >
         <div className="w-full flex flex-col rounded-3xl px-4 h-1/3 bg-white bg-opacity-10 flex-shrink-0">
           <div className="flex justify-between items-center w-full h-full">
-            <span className="justify-center flex flex-col italic">
+            <span className="justify-center flex flex-col italic mr-8">
               <p className="font-extrabold font-mono adjustable-text-size">
                 Good {time}, User
               </p>
@@ -230,7 +274,7 @@ export default function Home({ page, themes }) {
           <div className="border-t-2  flex justify-end text-white ">
             <span
               onClick={handleClick}
-              className="w-auto hover:bg-white hover:bg-opacity-10 p-2 cursor-pointer flex items-center rounded-full"
+              className="w-auto hover:bg-white hover:bg-opacity-10 p-2 m-2 cursor-pointer flex items-center rounded-full"
             >
               <p>Add songs </p>
               <IoAddCircle className="text-2xl" />
@@ -282,7 +326,17 @@ export default function Home({ page, themes }) {
                 )}
                 <p>{page === "Liked" ? "Liked Songs" : "Playlists "}</p>
               </span>
-              <p>{openPlaylist ? " > " + playlists[playlistIndex] : ""}</p>
+              <p>
+                {openPlaylist &&
+                  (playlists[playlistIndex].length >= truncateLength / 2
+                    ? "> " +
+                      playlists[playlistIndex].substring(
+                        0,
+                        truncateLength / 2 + 1
+                      ) +
+                      "..."
+                    : "> " + playlists[playlistIndex])}
+              </p>
             </span>
 
             {openPlaylist ? (
@@ -338,7 +392,7 @@ export default function Home({ page, themes }) {
         </div>
       </div>
 
-      <div className="player backdrop-blur-xl h-[calc(10%)] w-full fixed bottom-0 left-0 flex px-8  items-center  ">
+      <div className="player  h-[calc(10%)] w-full fixed bottom-0 left-0 flex px-8  items-center  ">
         <Player
           songs={addedSongs}
           currentSongIndex={currentSongIndex}

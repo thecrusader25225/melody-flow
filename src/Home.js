@@ -51,9 +51,13 @@ export default function Home({ page, themes }) {
   useEffect(() => {}, []);
 
   const handleSongAdd = (song) => {
-    const file = song.target.files[0];
-    const url = URL.createObjectURL(file);
-    setAddedSongs([...addedSongs, { url: url, name: file.name }]);
+    try {
+      const file = song.target.files[0];
+      const url = URL.createObjectURL(file);
+      setAddedSongs([...addedSongs, { url: url, name: file.name }]);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleClick = () => {
@@ -126,15 +130,28 @@ export default function Home({ page, themes }) {
                 ? "flex-grow-0 w-full h-12  duration-100 flex-row justify-between"
                 : "rounded-full w-32 h-32 hover:border-y border-purple-600 shadow-2xl  bg-inherit flex-col"
             } hover:cursor-pointer transform transition-transform ease-linear hover:scale-105 duration-75 hover:rounded-full  flex flex-shrink-0 justify-center items-center `}
-            onClick={() => handleSongClick(index, type)}
           >
             <span
+              onClick={() => handleSongClick(index, type)}
               className={`hover:bg-white hover:bg-opacity-10 flex w-full h-full rounded-full items-center ${
-                currentSongIndex === index && "bg-white bg-opacity-10"
+                type === "Liked"
+                  ? index ===
+                      likedSongs.findIndex(
+                        (liked) =>
+                          addedSongs[currentSongIndex].url === liked.url
+                      ) && "bg-white bg-opacity-10"
+                  : type === "Library"
+                  ? index === currentSongIndex && "bg-white bg-opacity-10"
+                  : type === "Playlist"
+                  ? index ===
+                      playlistSongs[playlistIndex].findIndex(
+                        (song) => addedSongs[currentSongIndex].url === song.url
+                      ) && "bg-white bg-opacity-10"
+                  : ""
               }`}
             >
               <BiPlay className="text-3xl w-16 min-w-8" />
-              {seeAll[index] ? (
+              {seeAll[type] ? (
                 <p className="text-white">
                   {song.name.length >= 2 * truncateLength
                     ? song.name.substring(0, 2 * truncateLength + 1) + "..."

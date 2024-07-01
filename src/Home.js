@@ -173,7 +173,41 @@ export default function Home({ page, themes }) {
               )}
             </span>
             <button>
-              <CgClose className="checkmark" />
+              <CgClose
+                className="checkmark"
+                onClick={() => {
+                  if (type === "Library") {
+                    const isPresentInLiked = likedSongs.some(
+                      (liked) => liked.url === song.url
+                    );
+
+                    isPresentInLiked &&
+                      setLikedSongs(
+                        likedSongs.filter((liked) => liked.url !== song.url)
+                      );
+
+                    const updatedPlaylist = playlistSongs.map((playlist) =>
+                      playlist.filter((s) => s.url !== song.url)
+                    );
+
+                    setPlaylistSongs(updatedPlaylist);
+
+                    let updatedAddedSongs = addedSongs.filter(
+                      (s) => s.url !== song.url
+                    );
+                    setAddedSongs(updatedAddedSongs);
+                  } else if (type === "Liked") {
+                    setLikedSongs(
+                      likedSongs.filter((liked) => liked.url !== song.url)
+                    );
+                  } else {
+                    const updatedPlaylist = playlistSongs.map((playlist) =>
+                      playlist.filter((s) => s.url !== song.url)
+                    );
+                    setPlaylistSongs(updatedPlaylist);
+                  }
+                }}
+              />
             </button>
           </div>
         ))}
@@ -205,16 +239,22 @@ export default function Home({ page, themes }) {
           <span className="hover:bg-white hover:bg-opacity-10 flex w-full h-full rounded-full items-center">
             <CgPlayList className="text-3xl" />
             <p className="text-white">
-              {playlist.length >= truncateLength
-                ? playlist.substring(0, truncateLength + 1) + "..."
-                : playlist}
+              {playlist
+                ? playlist.length >= truncateLength
+                  ? playlist.substring(0, truncateLength + 1) + "..."
+                  : playlist
+                : ""}
             </p>
           </span>
           <CgClose
             className="checkmark"
             onClick={() => {
-              setPlaylists(playlists.filter((_, i) => i !== index));
-              setPlaylistSongs(playlistSongs.filter((_, i) => i !== index));
+              const updatedPlaylist = playlists.filter((_, i) => i !== index);
+              const updatedPlaylistSongs = playlistSongs.filter(
+                (_, i) => i !== index
+              );
+              setPlaylistSongs(updatedPlaylistSongs);
+              setPlaylists(updatedPlaylist);
             }}
           />
         </div>

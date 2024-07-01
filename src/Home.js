@@ -69,6 +69,7 @@ export default function Home({ page, themes }) {
   };
 
   const handleSongClick = (index, type) => {
+    //for selecting songs to add in playlist
     if (selectSongs) {
       const songToAdd = addedSongs[index];
       const isPresent = playlistSongs[playlistIndex].some(
@@ -83,11 +84,17 @@ export default function Home({ page, themes }) {
 
       setSelectSongs(false);
     } else {
-      let indexToFind = index;
+      let indexToFind;
+      //for playing songs from liked
       if (type === "Liked") {
         const song = likedSongs[index];
         indexToFind = addedSongs.findIndex((s) => song.url === s.url);
-      }
+      } //for playing songs from playlist
+      else if (type === "Playlist") {
+        const song = playlistSongs[playlistIndex][index];
+        indexToFind = addedSongs.findIndex((s) => song.url === s.url);
+      } //for playing songs from library
+      else indexToFind = index;
       setCurrentSongIndex(indexToFind);
     }
   };
@@ -104,7 +111,7 @@ export default function Home({ page, themes }) {
     return (
       <>
         {selectSongs && type === "Playlist" ? (
-          <span className="flex items-center bg-white bg-opacity-10 rounded-3xl p-2 ">
+          <span className="flex items-center bg-white bg-opacity-10 rounded-3xl p-2">
             <p className="text-xs text-yellow-400">
               Click on the song from Library which you want to add in the
               playlist...
@@ -269,6 +276,7 @@ export default function Home({ page, themes }) {
     },
   ];
   useEffect(() => setAddedSongs(defaultSongs), []);
+  ////
 
   console.log(addedSongs);
   return (
@@ -309,7 +317,7 @@ export default function Home({ page, themes }) {
           <div className="border-t-2  flex justify-end text-white ">
             <span
               onClick={handleClick}
-              className="w-auto hover:bg-white hover:bg-opacity-10 p-2 m-2 cursor-pointer flex items-center rounded-full"
+              className="w-auto hover:bg-white hover:bg-opacity-10 p-2 m-2 cursor-pointer flex items-center rounded-full duration-200 transition-transform"
             >
               <p>Add songs </p>
               <IoAddCircle className="text-2xl" />
@@ -324,9 +332,9 @@ export default function Home({ page, themes }) {
             />
           </div>
         </div>
-        <div className="mt-8 w-full h-auto flex flex-col flex-grow m-1 text-white pb-24">
+        <div className="mt-8 w-full h-auto flex flex-col flex-grow m-1 text-white pb-24 font-mono">
           <span className="flex justify-between">
-            <p className="font-bold font-mono">Library</p>
+            <p className="font-bold">Library</p>
             <button
               onClick={() => setSeeAll({ ...seeAll, Library: !seeAll.Library })}
               className="checkmark"
@@ -345,7 +353,7 @@ export default function Home({ page, themes }) {
           )}
         </div>
       </div>
-      <div className="top-0 right-0 w-1/3 py-32 px-4 fixed h-full text-white font-bold font-mono">
+      <div className="top-0 right-0 w-1/3 py-32 px-4 fixed h-full text-white font-mono">
         <div className="w-full h-full flex flex-col bg-white bg-opacity-10 rounded-3xl">
           <div className="flex justify-between w-full h-auto px-4 pt-4">
             <span className="flex">
@@ -359,7 +367,9 @@ export default function Home({ page, themes }) {
                     className="checkmark"
                   />
                 )}
-                <p>{page === "Liked" ? "Liked Songs" : "Playlists "}</p>
+                <p className="font-bold">
+                  {page === "Liked" ? "Liked Songs" : "Playlists "}
+                </p>
               </span>
               <p>
                 {openPlaylist &&

@@ -27,7 +27,7 @@ function App() {
               }}
             />
             <a
-              href="https://github.com/thecrusader25225"
+              href="https://github.com/thecrusader25225/melody-flow"
               target="_blank"
               rel="noreferrer"
             >

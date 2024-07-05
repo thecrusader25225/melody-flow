@@ -94,7 +94,7 @@ export default function Player({
     }
   };
   const handleLikedSong = () => {
-    if (likedSongs.some((song) => song.url == currentSong.url))
+    if (likedSongs.some((song) => song.url === currentSong.url))
       setLikedSongs(likedSongs.filter((song) => song.url != currentSong.url));
     else
       setLikedSongs([
@@ -107,15 +107,15 @@ export default function Player({
       <div className="h-auto w-full flex flex-row justify-around items-center  rounded-2xl p-2 backdrop-blur-lg bg-white bg-opacity-10">
         <span className="flex flex-row items-center justify-start w-1/4">
           <BiMusic className=" text-4xl mr-4 w-16 min-w-16" />
-          <p className=" font-mono font-bold z-10 text-white text-wrap">
+          <p className="font-mono font-bold z-10 text-white text-wrap">
             {name.length > 40 && 2 * truncateLength > 40
               ? name.substring(0, 41) + "..."
-              : 2 * truncateLength
+              : name.length > 2 * truncateLength
               ? name.substring(0, 2 * truncateLength) + "..."
               : name}
           </p>
         </span>
-        <span className="flex flex-col w-3/4 items-center">
+        <span className="flex flex-col w-3/4 items-center px-4">
           <div className="z-10 flex justify-between w-1/2 p-2">
             <button className=" z-10" onClick={handlePrevious}>
               <GiPreviousButton className="checkmark text-3xl hover:text-white text-neutral-400" />

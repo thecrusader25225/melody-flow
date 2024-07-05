@@ -8,12 +8,12 @@ export default function Navbar({ themes, setThemes, page, setPage }) {
   return (
     <>
       {/* top nav bar */}
-      <div className="fixed flex justify-center items-center p-4 top-0 left-0 h-24 w-full shadow-lg bg-transparent backdrop-blur z-10 overflow-hidden toggle-visibility">
-        <span className="flex items-center">
+      <div className="fixed flex  items-center justify-center p-4 top-0 left-0 h-24 w-full shadow-lg bg-transparent backdrop-blur z-10 overflow-hidden toggle-visibility">
+        <span className="flex items-center ">
           <img src={logo} alt="Logo" className="w-20" />
           <p className="text-4xl font-mono font">Melody Flow</p>
         </span>
-        <span className="flex items-center ">
+        <span className="flex items-center absolute right-0 p-4  ">
           <PiSelectionBackgroundBold
             className="checkmark text-4xl"
             onClick={() => setThemes(themes < 2 ? themes + 1 : 0)}
@@ -23,7 +23,7 @@ export default function Navbar({ themes, setThemes, page, setPage }) {
             target="_blank"
             rel="noreferrer"
           >
-            <BsGithub className="checkmark text-3xl" />
+            <BsGithub className="checkmark text-4xl" />
           </a>
         </span>
       </div>

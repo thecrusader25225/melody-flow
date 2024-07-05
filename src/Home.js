@@ -279,7 +279,7 @@ export default function Home({ page, themes }) {
     if (!isWriting) setPlaylistName("");
   }, [isWriting]);
 
-  /**I am adding default songs for demonstration.
+  /**I have added default songs for demonstration.
    * This 'defaultSongs' array is made of songs using relative URL from the 'public/test-songs' folder
    * When you input a song by clicking 'Add song' in the player, you are adding the song by creating a blob URL dynamically.
    * Since blob URLs are unique everytime they are created I have used relative URLs to showcase some songs as an example.
@@ -321,6 +321,11 @@ export default function Home({ page, themes }) {
   ];
   useEffect(() => setAddedSongs(defaultSongs), []);
   ////
+  useEffect(() => {
+    alert(
+      "I have added default songs for demonstration.\n If you are using this module for your own project then you can remove it from `Home.js`"
+    );
+  }, []);
 
   console.log(addedSongs);
   return (

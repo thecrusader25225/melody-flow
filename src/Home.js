@@ -386,7 +386,7 @@ export default function Home({ page, themes }) {
           <div className="border-t-2  flex justify-end text-white ">
             <span
               onClick={handleClick}
-              className="w-auto hover:bg-white hover:bg-opacity-10 p-2 m-2 cursor-pointer flex items-center rounded-full duration-200 transition-transform"
+              className="w-auto m-1 flex items-center checkmark text-lg"
             >
               <p>Add songs </p>
               <IoAddCircle className="text-2xl" />
@@ -438,9 +438,9 @@ export default function Home({ page, themes }) {
       </div>
       <div className="top-0 right-0 w-1/3 py-32 px-4 fixed h-full text-white font-mono">
         <div className="w-full h-full flex flex-col bg-white bg-opacity-10 rounded-3xl">
-          <div className="flex justify-between w-full h-auto px-4 pt-4">
-            <span className="flex">
-              <span className="flex ">
+          <div className="flex justify-between w-full h-auto px-4 pt-4 items-center">
+            <span className="flex items-center">
+              <span className="flex items-center">
                 {openPlaylist && (
                   <MdArrowBack
                     onClick={() => {
@@ -450,7 +450,7 @@ export default function Home({ page, themes }) {
                     className="checkmark"
                   />
                 )}
-                <p className="font-bold">
+                <p className="font-bold text-lg">
                   {page === "Liked" ? "Liked Songs" : "Playlists "}
                 </p>
               </span>
@@ -469,8 +469,12 @@ export default function Home({ page, themes }) {
             </span>
 
             {openPlaylist ? (
-              <button onClick={() => setSelectSongs(true)}>
-                <IoAddCircle className="checkmark " />
+              <button
+                onClick={() => setSelectSongs(true)}
+                className="flex checkmark items-center"
+              >
+                <p className="text-lg">Add Songs</p>
+                <IoAddCircle />
               </button> /**adding songs in playist */
             ) : (
               page === "Playlist" && (
@@ -479,8 +483,10 @@ export default function Home({ page, themes }) {
                     setIsWriting(true);
                     setPlaylistSongs([...playlistSongs, []]);
                   }}
+                  className="flex checkmark items-center"
                 >
-                  <IoAddCircle className="checkmark" />
+                  <p className="text-lg">Create Playlist</p>
+                  <IoAddCircle />
                 </button> /**adding playlists */
               )
             )}

@@ -31,7 +31,7 @@ export default function Navbar({ themes, setThemes, page, setPage }) {
       <div className="fixed flex flex-col justify-between top-0 left-0 h-full w-1/6 min-w-44 toggle-visibility pt-32 pb-32 p-4">
         <span className="flex flex-col justify-center  bg-white bg-opacity-10 p-2 font-bold font-mono rounded-2xl">
           <button
-            className={`navButton ${
+            className={`navButton items-center ${
               page === "Liked" && "bg-white bg-opacity-10"
             }`}
             onClick={() => setPage("Liked")}
@@ -41,7 +41,7 @@ export default function Navbar({ themes, setThemes, page, setPage }) {
           </button>
           <div className="bg-white h-0.5 w-full" />
           <button
-            className={`navButton ${
+            className={`navButton items-center ${
               page === "Playlist" && "bg-white bg-opacity-10"
             }`}
             onClick={() => setPage("Playlist")}

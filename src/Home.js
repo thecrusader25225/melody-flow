@@ -162,7 +162,7 @@ export default function Home({ page, themes }) {
               <BiPlay className="text-3xl w-16 min-w-8" />
               {seeAll[type] ? (
                 <p className="text-white">
-                  {song.name.length >= 2 * truncateLength
+                  {song.name.length > 2 * truncateLength
                     ? song.name.substring(0, 2 * truncateLength + 1) + "..."
                     : song.name}
                 </p>
@@ -244,7 +244,7 @@ export default function Home({ page, themes }) {
             <CgPlayList className="text-3xl" />
             <p className="text-white">
               {playlist
-                ? playlist.length >= truncateLength
+                ? playlist.length > truncateLength
                   ? playlist.substring(0, truncateLength + 1) + "..."
                   : playlist
                 : ""}
@@ -327,16 +327,16 @@ export default function Home({ page, themes }) {
     <div
       className={`w-full h-full flex flex-row ${
         themes === 0
-          ? `bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900`
+          ? `bg-gradient-to-tl from-slate-900 via-slate-800 to-slate-900`
           : themes === 1
           ? `bg-gradient-to-tl from-neutral-900 via-sky-900 to-neutral-900`
-          : `bg-black`
+          : `bg-gradient-to-tl from-slate-900 via-fuchsia-900 to-slate-900`
       } adjustible-padding overflow-y-auto pb-24`}
     >
       <div
         className={`w-full h-full flex flex-col ${
           themes === 0
-            ? "bg-gradient-to-r from-fuchsia-400 via-pink-100 to-fuchsia-400 bg-clip-text text-transparent"
+            ? "bg-gradient-to-r from-slate-300 via-slate-200 to-slate-300 bg-clip-text text-transparent"
             : themes === 1
             ? "bg-gradient-to-r from-sky-500 via-sky-200 to-sky-500 bg-clip-text text-transparent"
             : "bg-gradient-to-r from-fuchsia-400 via-pink-100 to-fuchsia-400 bg-clip-text text-transparent"
@@ -418,7 +418,7 @@ export default function Home({ page, themes }) {
               <p>
                 {openPlaylist &&
                   playlists[playlistIndex] &&
-                  (playlists[playlistIndex].length >= truncateLength / 2
+                  (playlists[playlistIndex].length > truncateLength / 2
                     ? "> " +
                       playlists[playlistIndex].substring(
                         0,

@@ -130,12 +130,15 @@ export default function Player({
             <button className="text-3xl z-10" onClick={handleNext}>
               <GiNextButton className="checkmark text-3xl hover:text-white text-neutral-400" />
             </button>
-            <button onClick={handleLikedSong}>
+            <button
+              onClick={handleLikedSong}
+              className="active:scale-125 duration-150 ease-linear"
+            >
               <HiHeart
                 className={`checkmark text-3xl ${
                   likedSongs.some((song) => currentSong.name === song.name) &&
                   "text-red-600"
-                }`}
+                } `}
               />
             </button>
           </div>

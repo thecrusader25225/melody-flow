@@ -4,13 +4,21 @@ import "./index.css";
 import Player from "./Player";
 import { CgClose, CgPlayList } from "react-icons/cg";
 import { TiTick } from "react-icons/ti";
-import { BiPlay } from "react-icons/bi";
+import {
+  BiLeftArrow,
+  BiPlay,
+  BiRightArrow,
+  BiSolidLeftArrow,
+  BiSolidRightArrow,
+} from "react-icons/bi";
 import {
   MdArrowBack,
   MdArrowCircleUp,
   MdExpandCircleDown,
 } from "react-icons/md";
 import { IoAddCircle } from "react-icons/io5";
+import { BsChatLeftFill } from "react-icons/bs";
+import { PiArrowFatLeftFill, PiHandSwipeLeftFill } from "react-icons/pi";
 
 export default function Home({ page, themes }) {
   const [addedSongs, setAddedSongs] = useState([]);
@@ -48,7 +56,19 @@ export default function Home({ page, themes }) {
     window.addEventListener("resize", updateTruncateLength);
     return () => window.removeEventListener("resize", updateTruncateLength);
   }, []);
-  useEffect(() => {}, []);
+  const listRef = useRef(null);
+
+  const scrollLeft = () => {
+    if (listRef.current) {
+      listRef.current.scrollBy({ left: -200, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (listRef.current) {
+      listRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    }
+  };
 
   const handleSongAdd = (song) => {
     try {
@@ -381,7 +401,7 @@ export default function Home({ page, themes }) {
             />
           </div>
         </div>
-        <div className="mt-8 w-full h-auto flex flex-col flex-grow m-1 text-white pb-24 font-mono">
+        <div className="mt-8 mx-1 w-full h-auto flex flex-col flex-grow m-1 text-white pb-24 font-mono">
           <span className="flex justify-between">
             <p className="font-bold">Library</p>
             <button
@@ -391,14 +411,28 @@ export default function Home({ page, themes }) {
               {seeAll.Library ? <MdArrowCircleUp /> : <MdExpandCircleDown />}
             </button>
           </span>
+
           {seeAll.Library ? (
             <div className="w-full flex flex-col rounded-3xl backdrop-blur-xl flex-wrap flex-shrink-0 m-1 p-8 pr-12 bg-white bg-opacity-10">
               <List type="Library" />
             </div>
           ) : (
-            <div className="w-full h-auto min-h-16 flex items-center overflow-x-auto overflow-y-hidden flex-none rounded-full bg-white bg-opacity-10 p-2">
-              <List type="Library" />
-            </div>
+            <span className="flex w-full h-auto items-center p-1">
+              <button onClick={scrollLeft}>
+                <BiLeftArrow className="text-3xl checkmark absolute opacity-100 hover:opacity-0" />
+                <BiSolidLeftArrow className="text-3xl checkmark opacity-0 hover:opacity-100" />
+              </button>
+              <div
+                ref={listRef}
+                className="w-full h-auto min-h-16 flex items-center overflow-x-auto overflow-y-hidden shrink rounded-full bg-white bg-opacity-10 p-2"
+              >
+                <List type="Library" />
+              </div>
+              <button onClick={scrollRight}>
+                <BiRightArrow className="text-3xl checkmark absolute opacity-100 hover:opacity-0" />
+                <BiSolidRightArrow className="text-3xl checkmark  opacity-0 hover:opacity-100" />
+              </button>
+            </span>
           )}
         </div>
       </div>

@@ -11,7 +11,7 @@ export default function Navbar({ themes, setThemes, page, setPage }) {
       <div className="fixed flex  items-center justify-center p-4 top-0 left-0 h-24 w-full shadow-lg bg-transparent backdrop-blur z-10 overflow-hidden toggle-visibility">
         <span className="flex items-center ">
           <img src={logo} alt="Logo" className="w-20" />
-          <p className="text-4xl font-mono font">Melody Flow</p>
+          <p className="text-4xl font-mono font-extrabold">Melody Flow</p>
         </span>
         <span className="flex items-center absolute right-0 p-4  ">
           <PiSelectionBackgroundBold

@@ -132,13 +132,16 @@ export default function Player({
             </button>
             <button
               onClick={handleLikedSong}
-              className="active:scale-125 duration-150 ease-linear"
+              className={`active:scale-125 duration-150 ease-linear ${
+                !currentSong.name && "cursor-not-allowed"
+              }`}
+              disabled={!currentSong.name}
             >
               <HiHeart
                 className={`checkmark text-3xl ${
                   likedSongs.some((song) => currentSong.name === song.name) &&
                   "text-red-600"
-                } `}
+                } ${!currentSong.name && "cursor-not-allowed"}`}
               />
             </button>
           </div>

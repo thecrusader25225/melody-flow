@@ -128,7 +128,9 @@ export default function Home({ page, themes }) {
           ? addedSongs
           : type === "Liked"
           ? likedSongs
-          : playlistSongs[playlistIndex]
+          : playlists[playlistIndex]
+          ? playlistSongs[playlistIndex]
+          : []
         ).map((song, index) => (
           <div
             key={index}
@@ -231,12 +233,14 @@ export default function Home({ page, themes }) {
         <div
           key={index}
           className="flex-grow-0 w-full h-12  hover:scale-105  hover:rounded-full duration-100 flex justify-between cursor-pointer items-center"
-          onClick={() => {
-            setOpenPlaylist(true);
-            setPlaylistIndex(index);
-          }}
         >
-          <span className="hover:bg-white hover:bg-opacity-10 flex w-full h-full rounded-full items-center">
+          <span
+            className="hover:bg-white hover:bg-opacity-10 flex w-full h-full rounded-full items-center"
+            onClick={() => {
+              setOpenPlaylist(true);
+              setPlaylistIndex(index);
+            }}
+          >
             <CgPlayList className="text-3xl" />
             <p className="text-white">
               {playlist
@@ -413,6 +417,7 @@ export default function Home({ page, themes }) {
               </span>
               <p>
                 {openPlaylist &&
+                  playlists[playlistIndex] &&
                   (playlists[playlistIndex].length >= truncateLength / 2
                     ? "> " +
                       playlists[playlistIndex].substring(
@@ -446,9 +451,10 @@ export default function Home({ page, themes }) {
             <div className="flex w-full h-auto items-center px-2 m-1">
               <input
                 type="text"
-                className="bg-transparent border-dashed rounded-3xl border text-sm resize-none w-full outline-none px-2 "
+                className="bg-transparent border-dashed rounded-lg border text-sm resize-none w-full outline-none px-2 "
                 value={playlistName}
                 onChange={(e) => setPlaylistName(e.target.value)}
+                placeholder="Enter playlist name..."
               />
               {playlistName.length !== 0 && (
                 <TiTick

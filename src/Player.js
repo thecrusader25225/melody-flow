@@ -1,10 +1,10 @@
 import { BiMusic, BiRepeat, BiShuffle, BiVolume } from "react-icons/bi";
 import { useState, useEffect } from "react";
-import { HiHeart } from "react-icons/hi";
+import { HiHeart, HiOutlineHeart } from "react-icons/hi";
 import { GiNextButton, GiPauseButton, GiPreviousButton } from "react-icons/gi";
 import { MdPlayCircleFilled } from "react-icons/md";
 import { FaVolumeLow, FaVolumeXmark } from "react-icons/fa6";
-import { IoVolumeHigh } from "react-icons/io5";
+import { IoHeartOutline, IoVolumeHigh } from "react-icons/io5";
 import {
   BsFillVolumeUpFill,
   BsVolumeDown,
@@ -34,6 +34,7 @@ export default function Player({
 
   // Effect to set up new audio when url changes and cleanup previous audio
   useEffect(() => {
+    if (muted) audio.volume = 0;
     if (url) {
       setIsPlaying(false);
 
@@ -131,12 +132,12 @@ export default function Player({
         { url: currentSong.url, name: currentSong.name },
       ]);
   };
-
+  console.log("muted: " + muted);
   return (
     <>
       <div className="h-auto w-full flex flex-row justify-between items-center  rounded-2xl p-2 backdrop-blur-lg bg-white bg-opacity-10">
         <span className="flex flex-row items-center justify-start w-1/3">
-          <BiMusic className=" text-4xl mr-4 w-16 min-w-16" />
+          <BiMusic className=" text-4xl w-16 min-w-16" />
           <p className="font-mono font-bold z-10 text-white text-wrap">
             {name
               ? name.length > 40 && 2 * truncateLength > 40
@@ -146,6 +147,28 @@ export default function Player({
                 : name
               : "No songs playing"}
           </p>
+          {/* like button */}
+          <button
+            onClick={handleLikedSong}
+            className={`active:scale-125 duration-150 ease-linear m-2 ${
+              !currentSong.name && "cursor-not-allowed"
+            }`}
+            disabled={!currentSong.name}
+          >
+            {likedSongs.some((song) => currentSong.name === song.name) ? (
+              <HiHeart
+                className={`checkmark text-3xl text-red-600 ${
+                  !currentSong.name && "cursor-not-allowed"
+                }`}
+              />
+            ) : (
+              <HiOutlineHeart
+                className={`checkmark text-3xl text-red-600 ${
+                  !currentSong.name && "cursor-not-allowed"
+                }`}
+              />
+            )}
+          </button>
         </span>
         <span className="flex flex-col w-1/2 items-center justify-center px-4">
           <div className="z-10 flex justify-between w-1/2 p-2 items-center">
@@ -183,21 +206,7 @@ export default function Player({
             <button className="text-3xl z-10" onClick={handleNext}>
               <GiNextButton className="checkmark text-3xl hover:text-white text-neutral-400" />
             </button>
-            {/* like button */}
-            <button
-              onClick={handleLikedSong}
-              className={`active:scale-125 duration-150 ease-linear ${
-                !currentSong.name && "cursor-not-allowed"
-              }`}
-              disabled={!currentSong.name}
-            >
-              <HiHeart
-                className={`checkmark text-3xl ${
-                  likedSongs.some((song) => currentSong.name === song.name) &&
-                  "text-red-600"
-                } ${!currentSong.name && "cursor-not-allowed"}`}
-              />
-            </button>
+
             {/* repeat button */}
             <button>
               <BiRepeat className="checkmark" />

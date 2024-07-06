@@ -37,7 +37,9 @@ export default function Navbar({ themes, setThemes, page, setPage }) {
             }`}
             onClick={() => setPage("Liked")}
           >
-            <FaHeart className="text-3xl pr-2" />
+            <FaHeart
+              className={`text-3xl pr-2 ${page === "Liked" && "text-red-600"}`}
+            />
             <p>Liked Songs</p>
           </button>
           <div className="bg-white h-0.5 w-full" />
@@ -47,7 +49,11 @@ export default function Navbar({ themes, setThemes, page, setPage }) {
             }`}
             onClick={() => setPage("Playlist")}
           >
-            <PiPlaylist className=" text-3xl pr-2" />
+            <PiPlaylist
+              className={`text-3xl pr-2 ${
+                page === "Playlist" && "text-green-300"
+              }`}
+            />
             <p>Playlists</p>
           </button>
           <div className="bg-white h-0.5 w-full" />

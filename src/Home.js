@@ -178,7 +178,7 @@ export default function Home({ page, themes }) {
                   : ""
               }`}
             >
-              <BiPlay className="text-3xl w-16 min-w-8" />
+              <BiPlay className="text-3xl w-16 min-w-8 text-yellow-400" />
               {seeAll[type] ? (
                 <p className="text-white">
                   {song.name.length > 2 * truncateLength

@@ -34,6 +34,7 @@ export default function Home({ page, themes }) {
   const [openPlaylist, setOpenPlaylist] = useState(false); //to keep track of whether a playlist is opened or not
   const [playlistIndex, setPlaylistIndex] = useState(null); //to keep track of indexes of playlist
   const [selectSongs, setSelectSongs] = useState(false); //to keep track of which song is selected to add to playlist
+  const [volume, setVolume] = useState(100); //to keep track of volume
   const [seeAll, setSeeAll] = useState({
     Library: false,
     Liked: true,
@@ -449,7 +450,7 @@ export default function Home({ page, themes }) {
                     className="checkmark"
                   />
                 )}
-                <p className="font-bold text-lg">
+                <p className="font-bold text-base">
                   {page === "Liked" ? "Liked Songs" : "Playlists "}
                 </p>
               </span>
@@ -472,7 +473,7 @@ export default function Home({ page, themes }) {
                 onClick={() => setSelectSongs(true)}
                 className="flex checkmark items-center"
               >
-                <p className="text-lg">Add Songs</p>
+                <p className="text-base">Add </p>
                 <IoAddCircle />
               </button> /**adding songs in playist */
             ) : (
@@ -484,7 +485,7 @@ export default function Home({ page, themes }) {
                   }}
                   className="flex checkmark items-center"
                 >
-                  <p className="text-base">Create Playlist</p>
+                  <p className="text-base">Create </p>
                   <IoAddCircle />
                 </button> /**adding playlists */
               )

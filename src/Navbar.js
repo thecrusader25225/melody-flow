@@ -3,6 +3,7 @@ import { PiPlaylist, PiSelectionBackgroundBold } from "react-icons/pi";
 import { BiLogIn, BiSearch } from "react-icons/bi";
 import logo from "./logo.png";
 import { BsGithub } from "react-icons/bs";
+import { MdSettings } from "react-icons/md";
 
 export default function Navbar({ themes, setThemes, page, setPage }) {
   return (
@@ -50,15 +51,20 @@ export default function Navbar({ themes, setThemes, page, setPage }) {
             <p>Playlists</p>
           </button>
           <div className="bg-white h-0.5 w-full" />
-          <button className="navButton">
+          <button className="navButton items-center">
             <BiSearch className="text-3xl pr-2" />
             <p>Search</p>
           </button>
         </span>
         <span className="flex flex-col justify-center  bg-white bg-opacity-10 p-2 font-bold  font-mono rounded-2xl">
-          <button className="navButton">
+          <button className="navButton items-center ">
             <BiLogIn className="text-3xl pr-2" />
             <p>Sign in</p>
+          </button>
+          <div className="bg-white h-0.5 w-full" />
+          <button className="navButton items-center">
+            <MdSettings className="text-3xl pr-2" />
+            <p>Settings</p>
           </button>
         </span>
       </div>

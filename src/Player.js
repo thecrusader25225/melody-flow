@@ -108,11 +108,13 @@ export default function Player({
         <span className="flex flex-row items-center justify-start w-1/4">
           <BiMusic className=" text-4xl mr-4 w-16 min-w-16" />
           <p className="font-mono font-bold z-10 text-white text-wrap">
-            {name.length > 40 && 2 * truncateLength > 40
-              ? name.substring(0, 41) + "..."
-              : name.length > 2 * truncateLength
-              ? name.substring(0, 2 * truncateLength) + "..."
-              : name}
+            {name
+              ? name.length > 40 && 2 * truncateLength > 40
+                ? name.substring(0, 41) + "..."
+                : name.length > 2 * truncateLength
+                ? name.substring(0, 2 * truncateLength) + "..."
+                : name
+              : "No songs playing"}
           </p>
         </span>
         <span className="flex flex-col w-3/4 items-center px-4">
@@ -120,11 +122,25 @@ export default function Player({
             <button className=" z-10" onClick={handlePrevious}>
               <GiPreviousButton className="checkmark text-3xl hover:text-white text-neutral-400" />
             </button>
-            <button className="playpause z-10" onClick={handlePlayPause}>
+            <button
+              className={`playpause z-10 ${
+                !currentSong.name && "cursor-not-allowed"
+              }`}
+              onClick={handlePlayPause}
+              disabled={!currentSong.name}
+            >
               {isPlaying ? (
-                <GiPauseButton className="checkmark text-4xl hover:scale-125 duration-100" />
+                <GiPauseButton
+                  className={`checkmark text-4xl hover:scale-125 duration-100 ${
+                    !currentSong.name && "cursor-not-allowed"
+                  }`}
+                />
               ) : (
-                <MdPlayCircleFilled className="checkmark text-4xl hover:scale-125 duration-100" />
+                <MdPlayCircleFilled
+                  className={`checkmark text-4xl hover:scale-125 duration-100 ${
+                    !currentSong.name && "cursor-not-allowed"
+                  }`}
+                />
               )}
             </button>
             <button className="text-3xl z-10" onClick={handleNext}>

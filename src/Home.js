@@ -17,12 +17,10 @@ import {
   MdExpandCircleDown,
 } from "react-icons/md";
 import { IoAddCircle } from "react-icons/io5";
-import { BsChatLeftFill } from "react-icons/bs";
-import { PiArrowFatLeftFill, PiHandSwipeLeftFill } from "react-icons/pi";
 
 export default function Home({ page, themes }) {
   const [addedSongs, setAddedSongs] = useState([]);
-  const [currentSongIndex, setCurrentSongIndex] = useState(-1); // -1 means no song selected
+  const [currentSongIndex, setCurrentSongIndex] = useState(0); // -1 means no song selected
   const [time, setTime] = useState("");
 
   const [likedSongs, setLikedSongs] = useState([]);
@@ -341,13 +339,14 @@ export default function Home({ page, themes }) {
   ];
   useEffect(() => setAddedSongs(defaultSongs), []);
   ////
-  useEffect(() => {
-    alert(
-      "I have added default songs for demonstration.\n If you are using this module for your own project then you can remove it from `Home.js`"
-    );
-  }, []);
+  // useEffect(() => {
+  //   alert(
+  //     "I have added default songs for demonstration.\n If you are using this module for your own project then you can remove it from `Home.js`"
+  //   );
+  // }, []);
 
   console.log(addedSongs);
+  console.log(addedSongs[currentSongIndex]);
   return (
     <div
       className={`w-full h-full flex flex-row ${
@@ -458,13 +457,13 @@ export default function Home({ page, themes }) {
                 {openPlaylist &&
                   playlists[playlistIndex] &&
                   (playlists[playlistIndex].length > truncateLength / 2
-                    ? "> " +
+                    ? " > " +
                       playlists[playlistIndex].substring(
                         0,
                         truncateLength / 2 + 1
                       ) +
                       "..."
-                    : "> " + playlists[playlistIndex])}
+                    : " > " + playlists[playlistIndex])}
               </p>
             </span>
 
@@ -485,7 +484,7 @@ export default function Home({ page, themes }) {
                   }}
                   className="flex checkmark items-center"
                 >
-                  <p className="text-lg">Create Playlist</p>
+                  <p className="text-base">Create Playlist</p>
                   <IoAddCircle />
                 </button> /**adding playlists */
               )

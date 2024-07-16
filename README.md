@@ -3,7 +3,9 @@
 ![Melody Flow](/public/preview1.png)
 ![Melody Flow](/public/preview2.png)
 
+
 Melody Flow is a React music player application that allows users to add songs, create playlists, and play their favorite tracks. The application is styled using Tailwind CSS and includes various features such as responsive design, playlist management, and song categorization.
+
 
 ## Features
 
@@ -11,6 +13,10 @@ Melody Flow is a React music player application that allows users to add songs, 
 - **Playlist Management:** Create and manage multiple playlists.
 - **Song Categorization:** Organize songs into Library, Liked Songs, and Playlists.
 - **Player Controls:** Play, pause, and navigate through songs.
+
+
+### Live Demo
+Visit the [MelodyFlow Deployment](https://melody-flow-dun.vercel.app/) to see it in action!
 
 
 ## Installation

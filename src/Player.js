@@ -1,5 +1,5 @@
 import { BiMusic, BiRepeat, BiShuffle, BiVolume } from "react-icons/bi";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { HiHeart, HiOutlineHeart } from "react-icons/hi";
 import { GiNextButton, GiPauseButton, GiPreviousButton } from "react-icons/gi";
 import { MdPlayCircleFilled } from "react-icons/md";
@@ -34,11 +34,18 @@ export default function Player({
 
   // Effect to set up new audio when url changes and cleanup previous audio
   useEffect(() => {
-    if (muted) audio.volume = 0;
     if (url) {
       setIsPlaying(false);
 
       const newAudio = new Audio(url);
+
+      //you need to make changes to the new audio not the old one
+      if (muted) {
+        newAudio.volume = 0;
+      } else {
+        newAudio.volume = volume / 100;
+      }
+      ////
 
       const handleLoadedMetadata = () => {
         setDuration(newAudio.duration);
@@ -102,6 +109,7 @@ export default function Player({
     if (audio) audio.volume = newVolume / 100;
     setMuted(false);
   };
+
   const handleMuted = () => {
     if (muted) {
       if (audio) audio.volume = volume / 100;
@@ -110,6 +118,7 @@ export default function Player({
     }
     setMuted(!muted);
   };
+
   //Function to handle next song
   const handleNext = () => {
     if (currentSongIndex < songs.length - 1) {

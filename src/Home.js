@@ -36,7 +36,7 @@ export default function Home({ page, themes }) {
   const [selectSongs, setSelectSongs] = useState(false); //to keep track of which song is selected to add to playlist
   const [volume, setVolume] = useState(100); //to keep track of volume
   const [seeAll, setSeeAll] = useState({
-    Library: false,
+    Library: true,
     Liked: true,
     Playlist: true,
     Recent: false,

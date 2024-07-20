@@ -67,7 +67,7 @@ Visit the [MelodyFlow Deployment](https://melody-flow-dun.vercel.app/) to see it
 - Add songs by clicking the "Add songs" button and selecting audio files.
 - Create playlists by clicking the add icon in the Playlists section.
 - Click on songs in the Library to play them or add them to a playlist.
-- Navigate between Library, Liked Songs, and Playlists using the navigation menu.
+- Navigate between Liked Songs, and Playlists using the navigation menu.
 
 
 ## Contributing
